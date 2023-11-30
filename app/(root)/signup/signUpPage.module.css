@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  background-color: rgba(var(--card-border-rgb), 0.1);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input {
+  padding: 12px;
+  border-radius: 4px;
+  border-style: solid;
+  background-color: rgba(var(--card-border-rgb), 0.1);
+  border-color: rgba(var(--card-border-rgb), 0.1);
+  outline: none !important;
+  transition: border 300ms;
+}
+.input:focus {
+  border-style: solid;
+  border-color: rgba(var(--card-border-rgb), 0.3);
+}
+
+.select {
+  padding: 12px;
+  border-radius: 4px;
+  border-style: solid;
+  background: rgba(var(--card-border-rgb), 0.1);
+  border-color: rgba(var(--card-border-rgb), 0.1);
+  outline: none !important;
+  transition: border 300ms;
+}
+.option {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  /* font-size: 16px; */
+}
+
+.h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.registerButton {
+  margin: 0 auto;
+  padding: 12px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: crimson;
+  background-color: crimson;
+  margin-top: 8px;
+}
