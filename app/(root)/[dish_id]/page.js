@@ -56,6 +56,15 @@ function page({ params }) {
         setDishRating(data.dish.rating);
         setDishPage(data.dish.page);
         setDishCategory(data.dish.category);
+
+        setNewDishName(data.dish.name);
+        setNewDishDescription(data.dish.description);
+        setNewDishPrice(data.dish.price);
+        setNewDishImage(data.dish.image);
+        setNewIsDishVegeterian(data.dish.vegeterian);
+        setNewDishRating(data.dish.rating);
+        setNewDishPage(data.dish.page);
+        setNewDishCategory(data.dish.category);
       })
       .catch((error) => console.error("Error fetching the dish:", error));
   }, []);
@@ -65,16 +74,33 @@ function page({ params }) {
 
     // construct the data object to send in the request body
     const data = {
-      name: dishName,
-      description: dishDescription,
-      price: dishPrice,
-      image: dishImage,
-      vegeterian: isDishVegeterian,
-      rating: dishRating,
-      category: dishCategory,
-      page: dishPage,
+      name: newDishName,
+      description: newDishDescription,
+      price: newDishPrice,
+      image: newDishImage,
+      vegeterian: newIsDishVegeterian,
+      rating: newDishRating,
+      category: newDishCategory,
+      page: newDishPage,
     };
     console.log(data);
+
+    const accessToken = localStorage.getItem("token");
+    // send the PUT request to update the dish
+    fetch(`/api/dish/${dish_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // success
+        if (data.success === true) alert("success");
+      })
+      .catch((error) => console.error("Error updating the dish:", error));
 
     // const accessToken = localStorage.getItem("token");
     // fetch("/api/dish", {
