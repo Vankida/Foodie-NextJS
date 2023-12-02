@@ -4,12 +4,20 @@
   gap: 24px;
   max-width: 100%;
   width: var(--max-width);
+  /* width: 90%; */
   align-self: center;
   margin: 0 auto;
 }
+.filtersContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: 24px;
+}
 
 /* Mobile */
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
     margin-bottom: 120px;
