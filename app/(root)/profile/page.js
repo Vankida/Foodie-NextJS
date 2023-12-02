@@ -108,12 +108,6 @@ function profilePage() {
           <Link href="/add-dish" className={styles.adminButton}>
             Add Dish
           </Link>
-          <Link href="/addDish" className={styles.adminButton}>
-            Edit Dish
-          </Link>
-          <Link href="/addDish" className={styles.adminButton}>
-            Delete Dish
-          </Link>
         </div>
       )}
 

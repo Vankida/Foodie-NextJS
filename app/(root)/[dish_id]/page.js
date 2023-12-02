@@ -101,21 +101,23 @@ function page({ params }) {
         if (data.success === true) alert("success");
       })
       .catch((error) => console.error("Error updating the dish:", error));
+  };
 
-    // const accessToken = localStorage.getItem("token");
-    // fetch("/api/dish", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${accessToken}`,
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data); // success
-    //   })
-    //   .catch((error) => console.error("Error creating dish:", error));
+  const deleteDish = () => {
+    const accessToken = localStorage.getItem("token");
+    fetch(`/api/dish/${dish_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // success
+        if (data.success === true) alert("success");
+      })
+      .catch((error) => console.error("Error deleting the dish:", error));
   };
 
   return (
@@ -131,13 +133,22 @@ function page({ params }) {
           <h4>price: {dishPrice}$ / dish</h4>
 
           {isAdmin && (
-            <button
-              type="submit"
-              className={styles.editButton}
-              onClick={() => setDishBeingEdited(true)}
-            >
-              Edit Dish
-            </button>
+            <div className={styles.btnsContainer}>
+              <button
+                type="submit"
+                className={styles.editButton}
+                onClick={() => setDishBeingEdited(true)}
+              >
+                Edit Dish
+              </button>
+              <button
+                type="submit"
+                className={styles.editButton}
+                onClick={() => deleteDish()}
+              >
+                Delete Dish
+              </button>
+            </div>
           )}
         </div>
       )}

@@ -98,3 +98,61 @@ export async function PUT(req, { params }) {
     });
   }
 }
+
+export async function DELETE(req, { params }) {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader) {
+    return Response.json({
+      success: false,
+      message: "Authorization header missing",
+    });
+  }
+
+  const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
+  const secret = process.env.SECRET;
+
+  const { dish_id } = params;
+
+  mongoose.connect(process.env.MONGO_URL);
+
+  try {
+    // Verify the JWT token
+    const decodedToken = jwt.verify(token, secret);
+    const userId = decodedToken.userId;
+
+    // Get the user information from the database based on the userId
+    let user = await User.findById(userId);
+
+    if (!user) {
+      return Response.json({ success: false, message: "User not found" });
+    }
+    if (!user.admin) {
+      return Response.json({ success: false, message: "User is not an admin" });
+    }
+
+    const dish = await Dish.findById(dish_id);
+
+    if (!dish) {
+      return Response.json({
+        success: false,
+        message: "Dish not found",
+      });
+    }
+    const result = await Dish.deleteOne({ _id: dish_id });
+    if (result.deletedCount === 0) {
+      return Response.json({
+        success: false,
+        message: "Dish not found",
+      });
+    }
+    return Response.json({
+      success: true,
+      message: "Dish deleted successfully",
+    });
+  } catch (error) {
+    return Response.json({
+      success: false,
+      message: "An error occurred while deleting the dish",
+    });
+  }
+}

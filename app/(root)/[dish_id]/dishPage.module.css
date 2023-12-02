@@ -41,6 +41,12 @@
   max-width: 30ch;
 }
 
+.btnsContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .editButton {
   margin: 0 auto;
   padding: 12px;
