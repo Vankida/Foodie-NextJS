@@ -4,13 +4,19 @@ import DishCard from "./components/dishCard/DishCard";
 import styles from "./homePage.module.css";
 import Select from "react-select";
 // import { Dropdown } from "primereact/dropdown";
+// import ReactPaginate from 'react-paginate';
 import { useRouter, useSearchParams } from "next/navigation";
+
+import Pagination from "@mui/material/Pagination";
+// import { makeStyles } from "@mui/styles";
+// import Stack from "@mui/material/Stack";
 
 export default function Home() {
   const [dishes, setDishes] = useState([]);
+  const [searchParamsURL, setSearchParamsURL] = useState("");
 
   useEffect(() => {
-    fetch("/api/dish", {
+    fetch(`/api/dish${searchParamsURL}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -19,7 +25,9 @@ export default function Home() {
         setDishes([...data.dishes]);
       })
       .catch((error) => console.error("Error fetching dishes:", error));
-  }, []);
+
+    console.log(searchParamsURL);
+  }, [searchParamsURL]);
 
   const categories = [
     { value: "Wok", label: "Wok" },
@@ -89,8 +97,11 @@ export default function Home() {
     const filteredArr = arr.filter((item) => !item.startsWith("categories"));
     let newURL = filteredArr.join("&");
     let finalURL = `/?${query}` + `&${newURL}`;
-    !newURL.includes("sorting") ? (finalURL = finalURL.slice(0, -1)) : "";
+    !newURL.includes("sorting") && !newURL.includes("page")
+      ? (finalURL = finalURL.slice(0, -1))
+      : "";
     router.push(finalURL);
+    setSearchParamsURL(finalURL);
   };
 
   const handleSortingChange = (selectedSorting) => {
@@ -102,12 +113,49 @@ export default function Home() {
       if (searchParams.get("sorting")) {
         const updatedURL = url.replace(/(sorting=)[^&]+/, `$1${sorting}`);
         router.replace(`/?` + updatedURL);
-      } else router.push("/?" + searchParams.toString() + `&${query}`);
+        setSearchParamsURL(`/?` + updatedURL);
+      } else {
+        router.push("/?" + searchParams.toString() + `&${query}`);
+        setSearchParamsURL("/?" + searchParams.toString() + `&${query}`);
+      }
     } else {
       if (searchParams.get("sorting")) {
         const updatedURL = url.replace(/(sorting=)[^&]+/, `$1${sorting}`);
         router.replace(`/?` + updatedURL);
-      } else router.push(`/?${query}`);
+        setSearchParamsURL(`/?` + updatedURL);
+      } else {
+        router.push(`/?${query}`);
+        setSearchParamsURL(`/?${query}`);
+      }
+    }
+  };
+
+  const handlePageChange = (event, page) => {
+    // 'page' parameter contains the active page
+    console.log(page);
+    // console.log(searchParams.get("page"));
+
+    const query = `page=${page}`;
+    const url = searchParams.toString();
+    const queryExists = searchParams.toString();
+    if (queryExists) {
+      if (searchParams.get("page")) {
+        const updatedURL = url.replace(/(page=)[^&]+/, `$1${page}`);
+        router.replace(`/?` + updatedURL);
+        setSearchParamsURL(`/?` + updatedURL);
+      } else {
+        router.push("/?" + searchParams.toString() + `&${query}`);
+        setSearchParamsURL("/?" + searchParams.toString() + `&${query}`);
+      }
+    } else {
+      if (searchParams.get("page")) {
+        const updatedURL = url.replace(/(page=)[^&]+/, `$1${page}`);
+        router.replace(`/?` + updatedURL);
+        setSearchParamsURL(`/?` + updatedURL);
+      } else {
+        router.push(`/?${query}`);
+        setSearchParamsURL(`/?${query}`);
+      }
     }
   };
 
@@ -151,6 +199,19 @@ export default function Home() {
           );
         })}
       </div>
+
+      <Pagination
+        count={4}
+        defaultPage={1}
+        variant="outlined"
+        color="primary"
+        sx={{
+          button: {
+            color: "white",
+          },
+        }}
+        onChange={handlePageChange}
+      />
     </div>
   );
 }

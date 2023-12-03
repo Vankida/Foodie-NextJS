@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { Dish } from "@/app/models/Dish";
 import { User } from "@/app/models/User";
 import mongoose from "mongoose";
+import { useSearchParams } from "next/navigation";
 
 // Create a dish.
 export async function POST(req) {
@@ -65,9 +66,18 @@ export async function GET(req) {
     autoIndex: true, //this is the code I added that solved it all
   };
   mongoose.connect(process.env.MONGO_URL, options);
+
+  const page = req.nextUrl.searchParams.get("page");
+  const categories = req.nextUrl.searchParams.getAll("categories");
+  const sorting = req.nextUrl.searchParams.get("sorting");
+
   try {
     const dishes = await Dish.find();
-    return Response.json({ success: true, dishes });
+    return Response.json({
+      success: true,
+      dishes,
+      params: { page, categories, sorting },
+    });
   } catch (error) {
     return Response.json({
       success: false,
