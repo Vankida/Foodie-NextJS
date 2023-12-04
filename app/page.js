@@ -12,8 +12,12 @@ import Pagination from "@mui/material/Pagination";
 // import Stack from "@mui/material/Stack";
 
 export default function Home() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [dishes, setDishes] = useState([]);
-  const [searchParamsURL, setSearchParamsURL] = useState("");
+  const [searchParamsURL, setSearchParamsURL] = useState(
+    "?" + searchParams.toString()
+  );
 
   useEffect(() => {
     fetch(`/api/dish${searchParamsURL}`, {
@@ -80,8 +84,8 @@ export default function Home() {
   };
 
   // Add is vegetarian and the page.
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
 
   const handleCategoryChange = (selectedCategories) => {
     let categories;
@@ -97,7 +101,9 @@ export default function Home() {
     const filteredArr = arr.filter((item) => !item.startsWith("categories"));
     let newURL = filteredArr.join("&");
     let finalURL = `/?${query}` + `&${newURL}`;
-    !newURL.includes("sorting") && !newURL.includes("page")
+    !newURL.includes("sorting") &&
+    !newURL.includes("page") &&
+    !newURL.includes("vegetarian")
       ? (finalURL = finalURL.slice(0, -1))
       : "";
     router.push(finalURL);
@@ -121,6 +127,31 @@ export default function Home() {
     } else {
       if (searchParams.get("sorting")) {
         const updatedURL = url.replace(/(sorting=)[^&]+/, `$1${sorting}`);
+        router.replace(`/?` + updatedURL);
+        setSearchParamsURL(`/?` + updatedURL);
+      } else {
+        router.push(`/?${query}`);
+        setSearchParamsURL(`/?${query}`);
+      }
+    }
+  };
+
+  const handleVegetarianChange = (checked) => {
+    const query = `vegetarian=${checked}`;
+    const url = searchParams.toString();
+    const queryExists = searchParams.toString();
+    if (queryExists) {
+      if (searchParams.get("vegetarian")) {
+        const updatedURL = url.replace(/(vegetarian=)[^&]+/, `$1${checked}`);
+        router.replace(`/?` + updatedURL);
+        setSearchParamsURL(`/?` + updatedURL);
+      } else {
+        router.push("/?" + searchParams.toString() + `&${query}`);
+        setSearchParamsURL("/?" + searchParams.toString() + `&${query}`);
+      }
+    } else {
+      if (searchParams.get("vegetarian")) {
+        const updatedURL = url.replace(/(vegetarian=)[^&]+/, `$1${checked}`);
         router.replace(`/?` + updatedURL);
         setSearchParamsURL(`/?` + updatedURL);
       } else {
@@ -185,6 +216,12 @@ export default function Home() {
           styles={colourStyles}
           onChange={(selectedSorting) => handleSortingChange(selectedSorting)}
         />
+        <input
+          id="checkbox"
+          type="checkbox"
+          onChange={(e) => handleVegetarianChange(e.target.checked)}
+        />
+        <label htmlFor="checkbox">vegetarian</label>
       </div>
       <div className={styles.grid}>
         {dishes.map((item, index) => {

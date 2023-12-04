@@ -70,13 +70,37 @@ export async function GET(req) {
   const page = req.nextUrl.searchParams.get("page");
   const categories = req.nextUrl.searchParams.getAll("categories");
   const sorting = req.nextUrl.searchParams.get("sorting");
+  const vegetarian = req.nextUrl.searchParams.get("vegetarian");
 
   try {
-    const dishes = await Dish.find();
+    let dishes = await Dish.find();
+
+    if (sorting == "NameAsc") {
+      dishes.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sorting == "NameDesc") {
+      dishes.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sorting == "PriceAsc") {
+      dishes.sort((a, b) => a.price - b.price);
+    } else if (sorting == "PriceDesc") {
+      dishes.sort((a, b) => b.price - a.price);
+    } else if (sorting == "RatingAsc") {
+      dishes.sort((a, b) => a.rating - b.rating);
+    } else if (sorting == "RatingDesc") {
+      dishes.sort((a, b) => b.rating - a.rating);
+    }
+
+    if (categories.length > 0) {
+      dishes = dishes.filter((dish) => categories.includes(dish.category));
+    }
+
+    if (vegetarian == "true") {
+      dishes = dishes.filter((dish) => dish.vegetarian); // Correct the spelling later.
+    }
+
     return Response.json({
       success: true,
       dishes,
-      params: { page, categories, sorting },
+      params: { page, categories, sorting, vegetarian },
     });
   } catch (error) {
     return Response.json({

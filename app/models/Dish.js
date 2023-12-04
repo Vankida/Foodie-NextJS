@@ -6,7 +6,7 @@ const DishSchema = new Schema(
     description: { type: String },
     price: { type: Number },
     image: { type: String },
-    vegeterian: { type: Boolean, default: false },
+    vegetarian: { type: Boolean, default: false },
     rating: { type: Number },
     category: { type: String },
     page: { type: Number },

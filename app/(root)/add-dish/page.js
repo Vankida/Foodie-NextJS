@@ -8,7 +8,7 @@ function addDishPage() {
   const [dishDescription, setDishDescription] = useState("");
   const [dishPrice, setDishPrice] = useState(0);
   const [dishImage, setDishImage] = useState("");
-  const [isDishVegeterian, setIsDishVegeterian] = useState(false);
+  const [isDishVegetarian, setIsDishVegetarian] = useState(false);
   const [dishRating, setDishRating] = useState(0);
   const [dishPage, setDishPage] = useState(1);
   const [dishCategory, setDishCategory] = useState("Wok");
@@ -20,8 +20,8 @@ function addDishPage() {
     } else {
       setFormComplete(false);
     }
-    console.log(isDishVegeterian);
-  }, [dishName, dishDescription, dishImage, isDishVegeterian]);
+    console.log(isDishVegetarian);
+  }, [dishName, dishDescription, dishImage, isDishVegetarian]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -32,7 +32,7 @@ function addDishPage() {
       description: dishDescription,
       price: dishPrice,
       image: dishImage,
-      vegeterian: isDishVegeterian,
+      vegetarian: isDishVegetarian,
       rating: dishRating,
       category: dishCategory,
       page: dishPage,
@@ -109,12 +109,12 @@ function addDishPage() {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="exampleFormControlInput1" className="form-label">
-            <b>Vegeterian?</b>
+            <b>Vegetarian?</b>
           </label>
           <input
             type="checkbox"
-            value={isDishVegeterian}
-            onChange={(e) => setIsDishVegeterian(e.target.checked)}
+            value={isDishVegetarian}
+            onChange={(e) => setIsDishVegetarian(e.target.checked)}
           />
         </div>
         <div className={styles.inputContainer}>
