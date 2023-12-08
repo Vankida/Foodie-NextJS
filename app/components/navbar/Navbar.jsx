@@ -9,15 +9,12 @@ const Navbar = () => {
     <div className={styles.container}>
       <div className={styles.mainLinks}>
         <div className={styles.logo}>Foodie</div>
-        <Link href="/" className={styles.link}>
+        {/* <Link href="/" className={styles.link}>
           Menu
-        </Link>
-        <Link href="/" className={styles.link}>
+        </Link> */}
+        {/* <Link href="/" className={styles.link}>
           Orders
-        </Link>
-        <Link href="/" className={styles.link}>
-          Cart
-        </Link>
+        </Link> */}
       </div>
       <div className={styles.mainLinks}>
         <AuthLinks />

@@ -1,27 +1,16 @@
 .card {
   display: flex;
   flex-direction: column;
-  /* height: 400px;
-  width: 300px; */
-  height: 400px;
-  width: 20vw;
-  min-width: 250px;
+  height: 120px;
+  width: 100%;
   padding: 1rem 1.2rem;
   border-radius: var(--border-radius);
-  /* background: rgba(var(--card-rgb), 0.15); */
-  /* background-color: rgba(41, 39, 43, 0.5); */
+  background: rgba(var(--card-rgb), 0.15);
   border: 1px solid rgba(var(--card-border-rgb), 0);
   transition: background 200ms, border 200ms;
 
-  border: 1px solid rgba(var(--card-border-rgb), 0.15);
-
   align-self: center;
   margin: 0 auto;
-}
-
-.cardLink {
-  height: 90%;
-  width: 100%;
 }
 
 .card img {
@@ -30,11 +19,6 @@
   border-radius: 4px;
   object-fit: cover;
   object-position: center;
-}
-
-.card span {
-  display: inline-block;
-  transition: transform 200ms;
 }
 
 .card h2 {
@@ -54,8 +38,8 @@
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    background: rgba(var(--card-rgb), 0.05);
-    border: 1px solid rgba(var(--card-border-rgb), 0.3);
+    background: rgba(var(--card-rgb), 0.2);
+    border: 1px solid rgba(var(--card-border-rgb), 0.15);
   }
 
   .card:hover span {
@@ -70,7 +54,7 @@
 }
 
 /* Mobile */
-/* @media (max-width: 700px) {
+@media (max-width: 700px) {
   .card {
     padding: 1rem 2.5rem;
   }
@@ -78,4 +62,4 @@
   .card h2 {
     margin-bottom: 0.5rem;
   }
-} */
+}

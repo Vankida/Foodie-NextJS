@@ -59,9 +59,9 @@ export default function Home() {
       ...styles,
       backgroundColor: "#242424",
       color: "white",
-      width: "20%",
-      minWidth: "80px",
-      margin: "0 auto",
+      // width: "20%",
+      // minWidth: "80px",
+      // margin: "0 auto",
     }),
     control: (styles) => ({
       ...styles,
@@ -199,29 +199,63 @@ export default function Home() {
       }}
     >
       <div className={styles.filtersContainer}>
-        <Select
-          defaultValue={"none"}
-          options={categories}
-          isClearable
-          styles={colourStyles}
-          isMulti
-          onChange={(selectedCategories) =>
-            handleCategoryChange(selectedCategories, null)
-          }
-        />
-        <Select
-          defaultValue={"none"}
-          options={sorting}
-          isClearable
-          styles={colourStyles}
-          onChange={(selectedSorting) => handleSortingChange(selectedSorting)}
-        />
-        <input
-          id="checkbox"
-          type="checkbox"
-          onChange={(e) => handleVegetarianChange(e.target.checked)}
-        />
-        <label htmlFor="checkbox">vegetarian</label>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <label htmlFor="categories">Categories</label>
+          <Select
+            id="categories"
+            defaultValue={"none"}
+            options={categories}
+            isClearable
+            styles={colourStyles}
+            isMulti
+            onChange={(selectedCategories) =>
+              handleCategoryChange(selectedCategories, null)
+            }
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <label htmlFor="sorting">Sorting</label>
+          <Select
+            id="sorting"
+            defaultValue={"none"}
+            options={sorting}
+            isClearable
+            styles={colourStyles}
+            onChange={(selectedSorting) => handleSortingChange(selectedSorting)}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <label htmlFor="checkbox">Vegetarian</label>
+          <input
+            id="checkbox"
+            type="checkbox"
+            onChange={(e) => handleVegetarianChange(e.target.checked)}
+          />
+        </div>
       </div>
       <div className={styles.grid}>
         {dishes.map((item, index) => {
@@ -237,18 +271,29 @@ export default function Home() {
         })}
       </div>
 
-      <Pagination
-        count={4}
-        defaultPage={1}
-        variant="outlined"
-        color="primary"
-        sx={{
-          button: {
-            color: "white",
-          },
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          // marginTop: "60px",
+          margin: "0 auto",
+          // backgroundColor: "red",
         }}
-        onChange={handlePageChange}
-      />
+      >
+        <Pagination
+          count={4}
+          defaultPage={1}
+          // variant="outlined"
+          color="primary"
+          sx={{
+            button: {
+              color: "white",
+              marginTop: "40px",
+            },
+          }}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }

@@ -30,6 +30,9 @@ const AuthLinks = () => {
           <Link href="/profile" className={styles.link}>
             Profile
           </Link>
+          <Link href="/cart" className={styles.link}>
+            Cart
+          </Link>
           <button onClick={handleLogout}>Logout</button>
         </>
       )}

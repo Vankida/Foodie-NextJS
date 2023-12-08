@@ -2,10 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100px;
-  width: 80%;
-  margin: 0 auto;
-  margin-bottom: 6rem;
+  height: 80px;
+  /* width: 100vw; */
+  width: 100%;
+  /* padding-left: 72px; */
+  /* padding-right: 72px; */
+  margin-bottom: 5vh;
+  /* background-color: #1c1a05; */
+  background-color: #242424;
 }
 
 .logo {
@@ -18,8 +22,10 @@
   display: flex;
   align-items: center;
   align-content: center;
+  /* align-items: end; */
   gap: 20px;
   font-size: 20px;
+  /* text-align: bottom; */
 }
 
 .authLinks {
