@@ -21,7 +21,8 @@ const AuthLinks = () => {
           <Link href="/signup" className={styles.link}>
             Signup
           </Link>
-          <Link href="/login" className={styles.loginLink}>
+          {/* <Link href="/login" className={styles.loginLink}> */}
+          <Link href="/login" className={styles.link}>
             Login
           </Link>
         </>

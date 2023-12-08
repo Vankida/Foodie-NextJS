@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./dishCard.module.css";
 import Link from "next/link";
 
-function DishCard({ dishID, link, header, details }) {
+function DishCard({ dishID, link, header, details, rating, price }) {
   const handleSubmit = (event) => {
     // fetch(`/api/cart/${dishID}`, {
 
@@ -31,6 +31,8 @@ function DishCard({ dishID, link, header, details }) {
           {header} <span>-&gt;</span>
         </h2>
         <p>{details}</p>
+        <p>Rating: {rating}/10</p>
+        <p>Price: {price}$</p>
       </Link>
       <button className={styles.button} onClick={(e) => handleSubmit(e)}>
         Add to cart

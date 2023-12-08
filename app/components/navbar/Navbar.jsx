@@ -7,16 +7,30 @@ import AuthLinks from "../authLinks/AuthLinks";
 const Navbar = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.mainLinks}>
-        <div className={styles.logo}>Foodie</div>
-        {/* <Link href="/" className={styles.link}>
-          Menu
-        </Link> */}
-        {/* <Link href="/" className={styles.link}>
-          Orders
-        </Link> */}
+      <div
+        style={{
+          display: "flex",
+          textAlign: "bottom",
+          alignContent: "bottom",
+          alignItems: "bottom",
+          gap: "20px",
+        }}
+      >
+        <Link href="/" className={styles.link}>
+          <div className={styles.logo}>Foodie</div>
+        </Link>
+        <div className={styles.mainLinks}>
+          <Link href="/" className={styles.link}>
+            Menu
+          </Link>
+          <Link href="/" className={styles.link}>
+            Orders
+          </Link>
+        </div>
       </div>
+
       <div className={styles.mainLinks}>
+        {/* <div className={styles.authLinks}> */}
         <AuthLinks />
       </div>
     </div>

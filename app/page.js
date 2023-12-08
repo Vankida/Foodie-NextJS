@@ -265,6 +265,8 @@ export default function Home() {
               link={item.image}
               header={item.name}
               details={item.description}
+              rating={item.rating}
+              price={item.price}
               key={index}
             />
           );
