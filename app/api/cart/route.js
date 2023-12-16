@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Cart } from "@/app/models/Cart";
+import { Dish } from "@/app/models/Dish";
 import mongoose from "mongoose";
 
 // Add to cart.
@@ -22,7 +23,13 @@ export async function GET(req) {
 
     // Try to find an existing cart for the user
     const existingCart = await Cart.findOne({ userId });
+    // const dishesInCart = [];
     if (existingCart) {
+      // for (const item of existingCart.dishes) {
+      //   const dish = await Dish.findById(item.dishId);
+      //   dishesInCart.push(dish);
+      // }
+      // return Response.json({ success: true, existingCart, dishesInCart });
       return Response.json({ success: true, existingCart });
     } else {
       return Response.json({ success: true, existingCart: false });
