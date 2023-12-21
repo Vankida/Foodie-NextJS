@@ -23,7 +23,7 @@ const Navbar = () => {
           <Link href="/" className={styles.link}>
             Menu
           </Link>
-          <Link href="/orders" className={styles.link}>
+          <Link href="/order" className={styles.link}>
             Orders
           </Link>
         </div>
