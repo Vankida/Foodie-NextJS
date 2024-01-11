@@ -23,14 +23,5 @@ export default async function IndexPage() {
         <ReactSwagger spec={spec} />
       </div>
     </div>
-    // <div
-    //   style={{
-    //     backgroundColor: "white",
-    //     width: "100%",
-    //   }}
-    // >
-    //   {/* <pre>{JSON.stringify(spec, null, 2)}</pre> */}
-    //   <ReactSwagger spec={spec} />
-    // </div>
   );
 }
