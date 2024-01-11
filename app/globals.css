@@ -73,19 +73,13 @@
   }
 }
 
-.main {
+.mainn {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   align-items: center;
-  /* padding-left: 6rem;
-  padding-right: 6rem; */
   padding-bottom: 6rem;
   min-height: 100vh;
-  /* background-color: #1c1a05; */
   background-color: #242424;
-  /* padding-left: 6rem;
-  padding-right: 6rem; */
   width: 80vw;
   padding-left: 5vw;
   padding-right: 5vw;

@@ -3,7 +3,16 @@ import { Cart } from "@/app/models/Cart";
 import { Dish } from "@/app/models/Dish";
 import mongoose from "mongoose";
 
-// Add to cart.
+/**
+ * @swagger
+ * /api/cart:
+ *   get:
+ *     description: Returns the cart object
+ *     responses:
+ *       200:
+ *         description: cart
+ */
+
 export async function GET(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
