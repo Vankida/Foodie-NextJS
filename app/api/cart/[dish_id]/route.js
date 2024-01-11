@@ -1,6 +1,39 @@
 import jwt from "jsonwebtoken";
 import { Cart } from "@/app/models/Cart";
+import { Dish } from "@/app/models/Dish";
 import mongoose from "mongoose";
+
+/**
+ * @swagger
+ * /api/cart/{dishId}:
+ *   post:
+ *     summary: Add dish to cart
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: dishId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 // Add to cart.
 export async function POST(req, { params }) {
@@ -17,6 +50,8 @@ export async function POST(req, { params }) {
 
   const { dish_id } = params;
 
+  const dish = await Dish.findById(dish_id);
+
   try {
     // Verify the JWT token
     const decodedToken = jwt.verify(token, secret);
@@ -32,6 +67,7 @@ export async function POST(req, { params }) {
         if (dish.dishId === dish_id) {
           // If the dish exists, increment its quantity
           dish.quantity += 1;
+          dish.totalPrice = dish.price * dish.quantity;
           dishUpdated = true;
           break; // Exit the loop once the dish is found and updated
         }
@@ -39,7 +75,14 @@ export async function POST(req, { params }) {
 
       // If the dish doesn't exist, add it to the cart
       if (!dishUpdated) {
-        existingCart.dishes.push({ dishId: dish_id, quantity: 1 });
+        existingCart.dishes.push({
+          dishId: dish_id,
+          name: dish.name,
+          price: dish.price,
+          totalPrice: dish.price,
+          quantity: 1,
+          image: dish.image,
+        });
       }
 
       // Save the updated cart
@@ -48,11 +91,28 @@ export async function POST(req, { params }) {
       // If no cart exists, create a new one with the specified dish
       await Cart.create({
         userId,
-        dishes: [{ dishId: dish_id, quantity: 1 }],
+        dishes: [
+          {
+            dishId: dish_id,
+            name: dish.name,
+            price: dish.price,
+            totalPrice: dish.price,
+            quantity: 1,
+            image: dish.image,
+          },
+        ],
       });
     }
 
-    return Response.json({ success: true, createdCart: true, existingCart });
+    return Response.json({
+      success: true,
+      message: "Dish has been added successfully!",
+    });
+    // return Response.json({
+    //   success: true,
+    //   createdCart: true,
+    //   existingCart,
+    // });
   } catch (error) {
     // Token is invalid or expired
     return Response.json({

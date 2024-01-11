@@ -110,10 +110,26 @@ export async function GET(req) {
     // Try to find an existing cart for the user
     const existingCart = await Cart.findOne({ userId });
     if (existingCart) {
-      return Response.json({ success: true, existingCart }, { status: 200 });
+      let dishesInCart = existingCart.dishes;
+
+      let modifiedDishes = dishesInCart.map((dish) => {
+        // To remove the _id property
+        const newDish = {
+          dishId: dish.dishId,
+          image: dish.image,
+          name: dish.name,
+          price: dish.price,
+          totalPrice: dish.totalPrice,
+          quantity: dish.quantity,
+        };
+        return newDish;
+      });
+
+      // return Response.json({ success: true, existingCart }, { status: 200 });
+      return Response.json(modifiedDishes, { status: 200 });
     } else {
       return Response.json(
-        { success: true, existingCart: false },
+        { success: true, existingCart: "No cart found!" },
         { status: 200 }
       );
     }

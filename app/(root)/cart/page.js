@@ -17,10 +17,10 @@ function cartPage() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // success
-        setCartItems([...data.existingCart.dishes]);
+        data.length > 0 && setCartItems([...data]);
         // console.log(data.existingCart.dishes);
       })
-      .catch((error) => console.error("Error adding dish:", error));
+      .catch((error) => console.error("Error getting cart dishes:", error));
   };
 
   useEffect(() => {
@@ -74,9 +74,18 @@ function cartPage() {
           // backgroundColor: "yellow",
         }}
       >
-        {cartItems.map((item, index) => {
-          return <CartCard dishID={item.dishId} key={index} />;
-        })}
+        {cartItems &&
+          cartItems.map((item, index) => {
+            return (
+              <CartCard
+                dishName={item.name}
+                dishPrice={item.price}
+                totalPrice={item.totalPrice}
+                dishImage={item.image}
+                key={index}
+              />
+            );
+          })}
       </div>
       <div
         style={{
