@@ -78,6 +78,7 @@ function cartPage() {
           cartItems.map((item, index) => {
             return (
               <CartCard
+                dishID={item.dishId}
                 dishName={item.name}
                 dishPrice={item.price}
                 totalPrice={item.totalPrice}

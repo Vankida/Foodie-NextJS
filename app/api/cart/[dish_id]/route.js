@@ -39,10 +39,13 @@ import mongoose from "mongoose";
 export async function POST(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      { status: 401 }
+    );
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -104,20 +107,154 @@ export async function POST(req, { params }) {
       });
     }
 
-    return Response.json({
-      success: true,
-      message: "Dish has been added successfully!",
-    });
-    // return Response.json({
-    //   success: true,
-    //   createdCart: true,
-    //   existingCart,
-    // });
+    return Response.json(
+      {
+        success: true,
+        message: "Dish has been added successfully!",
+      },
+      { status: 200 }
+    );
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      { status: 401 }
+    );
+  }
+}
+
+/**
+ * @swagger
+ * /api/cart/{dishId}:
+ *   delete:
+ *     summary: Decrease the number of dishes in the cart(if increase = true), or remove the dish completely(increase = false)
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: dishId
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: increase
+ *         required: true
+ *         default: false
+ *         schema:
+ *           type: boolean
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
+export async function DELETE(req, { params }) {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader) {
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      { status: 401 }
+    );
+  }
+
+  const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
+  const secret = process.env.SECRET;
+
+  const { dish_id } = params;
+  let decreaseQuantity = req.nextUrl.searchParams.get("increase");
+  // decreaseQuantity === "true";
+
+  try {
+    // Verify the JWT token
+    const decodedToken = jwt.verify(token, secret);
+    const userId = decodedToken.userId;
+    mongoose.connect(process.env.MONGO_URL);
+
+    // Find the user's cart
+    const existingCart = await Cart.findOne({ userId });
+
+    if (!existingCart) {
+      return Response.json(
+        {
+          success: false,
+          message: "Cart not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    // Check if the dish exists in the cart
+    const index = existingCart.dishes.findIndex(
+      (dish) => dish.dishId === dish_id
+    );
+
+    if (index !== -1) {
+      if (decreaseQuantity === "true") {
+        // Decrease the quantity of the dish in the cart
+        if (existingCart.dishes[index].quantity > 1) {
+          existingCart.dishes[index].quantity -= 1;
+          existingCart.dishes[index].totalPrice =
+            existingCart.dishes[index].price *
+            existingCart.dishes[index].quantity;
+        } else {
+          // If quantity is 1, remove the dish from the cart
+          existingCart.dishes.splice(index, 1);
+        }
+      } else {
+        // Delete all dishes with the specified ID from the cart
+        // existingCart.dishes = existingCart.dishes.filter(
+        //   (dish) => dish.dishId !== dish_id
+        // );
+        existingCart.dishes.splice(index, existingCart.dishes[index].quantity);
+      }
+
+      // Save the updated cart
+      await existingCart.save();
+
+      return Response.json(
+        {
+          success: true,
+          message: "Dish quantity decreased successfully!",
+          // decreaseQuantity: decreaseQuantity,
+        },
+        { status: 200 }
+      );
+    } else {
+      return Response.json(
+        {
+          success: false,
+          message: "Dish not found in the cart",
+        },
+        { status: 404 }
+      );
+    }
+  } catch (error) {
+    // Token is invalid or expired
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      { status: 401 }
+    );
   }
 }
