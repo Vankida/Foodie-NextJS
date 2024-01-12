@@ -8,8 +8,9 @@ export default async function IndexPage() {
     <div
       style={{
         position: "absolute",
-        width: "100vw",
-        height: "100vh",
+        minWidth: "100vw",
+        minHeight: "100vh",
+        display: "flex",
         backgroundColor: "white",
       }}
     >

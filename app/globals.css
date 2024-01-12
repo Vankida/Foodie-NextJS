@@ -80,6 +80,7 @@
   padding-bottom: 6rem;
   min-height: 100vh;
   background-color: #242424;
+  /* color: black; */
   width: 80vw;
   padding-left: 5vw;
   padding-right: 5vw;
@@ -90,6 +91,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  /* color: black; */
 }
 
 html,
@@ -98,10 +100,11 @@ body {
   overflow-x: hidden;
   /* background-color: #d9d9d9; */
   background-color: #363636;
+  /* color: white; */
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  /* color: rgb(var(--foreground-rgb)); */
   /* background: linear-gradient(
       to bottom,
       transparent,
@@ -114,6 +117,14 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+input {
+  background-color: #484848 !important;
+}
+
+/* .swagger-ui .parameters-col_description input {
+  background-color: black;
+} */
 
 @media (prefers-color-scheme: dark) {
   html {
