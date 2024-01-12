@@ -1,14 +1,10 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(25%, auto));
-  /* gap: 24px; */
   row-gap: 24px;
   max-width: 100%;
-  /* width: var(--max-width); */
-  /* width: 90%; */
   align-self: center;
   margin: 0 auto;
-  /* background-color: rgba(41, 39, 43, 0.5); */
   border: 1px solid rgba(208, 208, 208, 0.1);
   width: 100%;
   border-radius: 12px;
@@ -28,9 +24,6 @@
   align-items: center;
   align-content: center;
   justify-content: space-between;
-  /* gap: 24px; */
-  /* background-color: rgba(208, 208, 208, 0.04); */
-  /* background-color: rgba(41, 39, 43, 0.5); */
   border: 1px solid rgba(208, 208, 208, 0.1);
   margin-bottom: 12px;
 }

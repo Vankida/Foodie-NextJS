@@ -34,7 +34,9 @@ const AuthLinks = () => {
           <Link href="/cart" className={styles.link}>
             Cart
           </Link>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout} className={styles.link}>
+            Logout
+          </button>
         </>
       )}
       <div className={styles.burger} onClick={() => setOpen(!open)}>
@@ -49,12 +51,18 @@ const AuthLinks = () => {
           <Link href="/">Cart</Link> */}
           {!isAuthenticated ? (
             <>
-              <Link href="/signup">Signup</Link>
-              <Link href="/login">Login</Link>
+              <Link href="/signup" onClick={() => setOpen(!open)}>
+                Signup
+              </Link>
+              <Link href="/login" onClick={() => setOpen(!open)}>
+                Login
+              </Link>
             </>
           ) : (
             <>
-              <Link href="/profile">Profile</Link>
+              <Link href="/profile" onClick={() => setOpen(!open)}>
+                Profile
+              </Link>
               <button onClick={handleLogout}>Logout</button>
             </>
           )}

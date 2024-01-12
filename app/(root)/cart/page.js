@@ -93,10 +93,21 @@ function cartPage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          justifyItems: "center",
         }}
       >
-        <p>Total: 125$</p>
-        <button onClick={handleMakeOrder}>Order</button>
+        {/* <p>Total: 125$</p> */}
+        {cartItems.length > 0 && (
+          <button
+            onClick={handleMakeOrder}
+            style={{
+              padding: "12px",
+              marginLeft: "24px",
+            }}
+          >
+            Order
+          </button>
+        )}
       </div>
     </div>
   );

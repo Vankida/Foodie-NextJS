@@ -27,7 +27,9 @@ function OrderCard({ orderID, orderDate, deliveryTime, status }) {
       <h2>Order from: {orderDate}</h2>
       <p>Delivery time: {deliveryTime}</p>
       <p>Status: {status}</p>
-      <button onClick={(e) => confirmOrder(e)}>Confirm Order</button>
+      {status === "InProcess" && (
+        <button onClick={(e) => confirmOrder(e)}>Confirm Order</button>
+      )}
     </Link>
   );
 }
