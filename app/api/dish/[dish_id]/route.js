@@ -39,7 +39,7 @@ export async function GET(req, { params }) {
  * /api/dish/{dish_id}:
  *   put:
  *     summary: Update a dish
- *     tags: [Dish]
+ *     tags: [Admin]
  *     parameters:
  *       - in: path
  *         name: dishId
@@ -157,7 +157,7 @@ export async function PUT(req, { params }) {
  * /api/dish/{dish_id}:
  *   delete:
  *     summary: Delete a dish
- *     tags: [Dish]
+ *     tags: [Admin]
  *     parameters:
  *       - in: path
  *         name: dishId

@@ -6,7 +6,52 @@ import mongoose from "mongoose";
 /**
  * @swagger
  * tags:
+ *   name: Admin
  *   name: Dish
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     DishList:
+ *       type: array
+ *       required:
+ *         - id
+ *         - name
+ *         - description
+ *         - price
+ *         - image
+ *         - vegetarian
+ *         - rating
+ *         - category
+
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         price:
+ *           type: number
+ *         description:
+ *           type: string
+ *         vegetarian:
+ *           type: boolean
+ *         rating:
+ *           type: number
+ *         image:
+ *           type: string
+ *         category:
+ *           type: string
+ *       example:
+ *         id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+ *         name: string
+ *         description: string
+ *         price: 0
+ *         image: string
+ *         vegetarian: true
+ *         rating: 0
+ *         category: "Wok"
  */
 
 /**
@@ -14,7 +59,7 @@ import mongoose from "mongoose";
  * /api/dish:
  *   post:
  *     summary: Add a dish to the list of dishes
- *     tags: [Dish]
+ *     tags: [Admin]
  *     responses:
  *       200:
  *         description: Success
@@ -86,6 +131,59 @@ export async function POST(req) {
     });
   }
 }
+
+/**
+ * @swagger
+ * /api/dish:
+ *   get:
+ *     summary: Get a list of dishes (menu)
+ *     tags: [Dish]
+ *     parameters:
+ *       - in: query
+ *         name: categories
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: ["Wok", "Pizza", "Soup", "Dessert", "Drink"]
+ *       - in: query
+ *         name: vegetarian
+ *         required: false
+ *         schema:
+ *           type: boolean
+ *           default: false
+ *           enum: [true, false]
+ *       - in: query
+ *         name: sorting
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: ["NameAsc", "NameDesc", "PriceAsc", "PriceDesc", "RatingAsc", "RatingDesc"]
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/DishList'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 // Get dishes.
 export async function GET(req) {
