@@ -34,6 +34,53 @@ export async function GET(req, { params }) {
   }
 }
 
+/**
+ * @swagger
+ * /api/dish/{dish_id}:
+ *   put:
+ *     summary: Update a dish
+ *     tags: [Dish]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               image:
+ *                 type: string
+ *               vegeterian:
+ *                 type: boolean
+ *               rating:
+ *                 type: number
+ *               category:
+ *                 type: string
+ *               page:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
 export async function PUT(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
