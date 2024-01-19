@@ -40,6 +40,12 @@ export async function GET(req, { params }) {
  *   put:
  *     summary: Update a dish
  *     tags: [Dish]
+ *     parameters:
+ *       - in: path
+ *         name: dishId
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -146,6 +152,35 @@ export async function PUT(req, { params }) {
   }
 }
 
+/**
+ * @swagger
+ * /api/dish/{dish_id}:
+ *   delete:
+ *     summary: Delete a dish
+ *     tags: [Dish]
+ *     parameters:
+ *       - in: path
+ *         name: dishId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 export async function DELETE(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
