@@ -2,7 +2,36 @@ import jwt from "jsonwebtoken";
 import { Dish } from "@/app/models/Dish";
 import { User } from "@/app/models/User";
 import mongoose from "mongoose";
-import { useSearchParams } from "next/navigation";
+
+/**
+ * @swagger
+ * tags:
+ *   name: Dish
+ */
+
+/**
+ * @swagger
+ * /api/dish:
+ *   post:
+ *     summary: Add a dish to the list of dishes
+ *     tags: [Dish]
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 // Create a dish.
 export async function POST(req) {
@@ -42,10 +71,8 @@ export async function POST(req) {
       });
     }
 
-    // Return the user's information
-    // const body = await req.json();
     const options = {
-      autoIndex: true, //this is the code I added that solved it all
+      autoIndex: true,
     };
     mongoose.connect(process.env.MONGO_URL, options);
 
