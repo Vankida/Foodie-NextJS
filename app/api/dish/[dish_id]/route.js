@@ -3,6 +3,37 @@ import { User } from "@/app/models/User";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * /api/dish/{dishId}:
+ *   get:
+ *     summary: Get a information about a concrete dish
+ *     tags: [Dish]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/DishList'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 export async function GET(req, { params }) {
   const { dish_id } = params;
 
