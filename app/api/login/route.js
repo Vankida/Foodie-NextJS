@@ -8,43 +8,66 @@ export async function POST(req) {
   const options = {
     autoIndex: true,
   };
+
   mongoose.connect(process.env.MONGO_URL, options);
 
-  const { email, password } = body;
+  try {
+    const { email, password } = body;
 
-  // Find the user based on the provided email
-  const user = await User.findOne({ email });
+    // Find the user based on the provided email
+    const user = await User.findOne({ email });
 
-  if (!user) {
-    return Response.json({
-      success: false,
-      message: "Invalid email or password",
+    if (!user) {
+      return Response.json(
+        {
+          success: false,
+          message: "Invalid email or password",
+        },
+        401
+      ); // HTTP 401 Unauthorized
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+
+    if (!passwordMatch) {
+      return Response.json(
+        {
+          success: false,
+          message: "Invalid email or password",
+        },
+        401
+      ); // HTTP 401 Unauthorized
+    }
+
+    // User and password are valid, you can proceed with the login logic here
+    // For example, you can generate a JWT token and send it back to the client
+
+    // Generate a JWT token
+    const secret = process.env.SECRET;
+    const token = jwt.sign({ userId: user.id }, secret, {
+      expiresIn: "1h",
     });
+    // Include the token in the response
+    return Response.json(
+      {
+        success: true,
+        message: "Login successful",
+        user,
+        token,
+      },
+      200
+    ); // HTTP 200 OK
+  } catch (error) {
+    return Response.json(
+      {
+        success: false,
+        message: "An error occurred during login",
+      },
+      500
+    ); // HTTP 500 Internal Server Error
   }
-
-  // Compare the provided password with the hashed password in the database
-  const passwordMatch = bcrypt.compareSync(password, user.password);
-
-  if (!passwordMatch) {
-    return Response.json({
-      success: false,
-      message: "Invalid email or password",
-    });
-  }
-
-  // User and password are valid, you can proceed with the login logic here
-  // For example, you can generate a JWT token and send it back to the client
-
-  // Generate a JWT token
-  const secret = process.env.SECRET;
-  const token = jwt.sign({ userId: user.id }, secret, {
-    expiresIn: "1h",
-  });
-  // Include the token in the response
-  return Response.json({
-    success: true,
-    message: "Login successful",
-    user,
-    token,
-  });
+  // finally {
+  //   mongoose.connection.close();
+  // }
 }

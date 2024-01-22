@@ -55,21 +55,30 @@ export async function GET(req, { params }) {
     const dish = await Dish.findById(dish_id);
 
     if (!dish) {
-      return Response.json({
-        success: false,
-        message: "Dish not found",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Dish not found",
+        },
+        404
+      ); // HTTP 404 Not Found
     }
 
-    return Response.json({
-      success: true,
-      dish,
-    });
+    return Response.json(
+      {
+        success: true,
+        dish,
+      },
+      200
+    ); // HTTP 200 OK
   } catch (error) {
-    return Response.json({
-      success: false,
-      message: "An error occurred while fetching the dish",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "An error occurred while fetching the dish",
+      },
+      500
+    ); // HTTP 500 Internal Server Error
   }
 }
 
@@ -129,10 +138,13 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -151,18 +163,24 @@ export async function PUT(req, { params }) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" });
+      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
     }
     if (!user.admin) {
-      return Response.json({ success: false, message: "User is not an admin" });
+      return Response.json(
+        { success: false, message: "User is not an admin" },
+        403
+      ); // HTTP 403 Forbidden
     }
     let dish = await Dish.findById(dish_id);
 
     if (!dish) {
-      return Response.json({
-        success: false,
-        message: "Dish not found",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Dish not found",
+        },
+        404
+      ); // HTTP 404 Not Found
     }
 
     // Update the dish information based on the request body
@@ -172,7 +190,7 @@ export async function PUT(req, { params }) {
     dish.description = requestBody.description;
     dish.price = requestBody.price;
     dish.image = requestBody.image;
-    dish.vegeterian = requestBody.vegeterian;
+    dish.vegetarian = requestBody.vegetarian; // Corrected the spelling
     dish.rating = requestBody.rating;
     dish.category = requestBody.category;
     dish.page = requestBody.page;
@@ -181,13 +199,16 @@ export async function PUT(req, { params }) {
     dish = await dish.save();
 
     // Return the updated user's information
-    return Response.json({ success: true, dish });
+    return Response.json({ success: true, dish }, 200); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 }
 
@@ -223,10 +244,13 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -245,35 +269,52 @@ export async function DELETE(req, { params }) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" });
+      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
     }
     if (!user.admin) {
-      return Response.json({ success: false, message: "User is not an admin" });
+      return Response.json(
+        { success: false, message: "User is not an admin" },
+        403
+      ); // HTTP 403 Forbidden
     }
 
     const dish = await Dish.findById(dish_id);
 
     if (!dish) {
-      return Response.json({
-        success: false,
-        message: "Dish not found",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Dish not found",
+        },
+        404
+      ); // HTTP 404 Not Found
     }
+
     const result = await Dish.deleteOne({ _id: dish_id });
     if (result.deletedCount === 0) {
-      return Response.json({
-        success: false,
-        message: "Dish not found",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Dish not found",
+        },
+        404
+      ); // HTTP 404 Not Found
     }
-    return Response.json({
-      success: true,
-      message: "Dish deleted successfully",
-    });
+
+    return Response.json(
+      {
+        success: true,
+        message: "Dish deleted successfully",
+      },
+      200
+    ); // HTTP 200 OK
   } catch (error) {
-    return Response.json({
-      success: false,
-      message: "An error occurred while deleting the dish",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "An error occurred while deleting the dish",
+      },
+      500
+    ); // HTTP 500 Internal Server Error
   }
 }

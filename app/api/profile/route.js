@@ -4,10 +4,13 @@ import jwt from "jsonwebtoken";
 export async function GET(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -22,27 +25,36 @@ export async function GET(req) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" });
+      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
     }
 
     // Return the user's information
-    return Response.json({ success: true, user });
+    return Response.json({ success: true, user }, 200); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
+  // finally {
+  //   mongoose.connection.close();
+  // }
 }
 
 export async function PUT(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -57,7 +69,7 @@ export async function PUT(req) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" });
+      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
     }
 
     // Update the user information based on the request body
@@ -73,12 +85,18 @@ export async function PUT(req) {
     user = await user.save();
 
     // Return the updated user's information
-    return Response.json({ success: true, user });
+    return Response.json({ success: true, user }, 200); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
+  // finally {
+  //   mongoose.connection.close();
+  // }
 }

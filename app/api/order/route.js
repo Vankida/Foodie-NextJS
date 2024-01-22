@@ -91,10 +91,13 @@ import mongoose from "mongoose";
 export async function POST(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -108,18 +111,38 @@ export async function POST(req) {
 
     const existingCart = await Cart.findOne({ userId });
 
+    if (!existingCart) {
+      return Response.json(
+        {
+          success: false,
+          message: "Cart not found for the user",
+        },
+        404
+      ); // HTTP 404 Not Found
+    }
+
     const dishes = [];
     for (const item of existingCart.dishes) {
       let dish = await Dish.findById(item.dishId);
-      let newDish = {
-        dishId: item.dishId,
-        dishName: dish.name,
-        dishPrice: dish.price,
-        totalPrice: dish.price * item.quantity,
-        amount: item.quantity,
-        dishImage: dish.image,
-      };
-      dishes.push(newDish);
+      if (dish) {
+        let newDish = {
+          dishId: item.dishId,
+          dishName: dish.name,
+          dishPrice: dish.price,
+          totalPrice: dish.price * item.quantity,
+          amount: item.quantity,
+          dishImage: dish.image,
+        };
+        dishes.push(newDish);
+      } else {
+        return Response.json(
+          {
+            success: false,
+            message: "Dish not found in the database",
+          },
+          404
+        ); // HTTP 404 Not Found
+      }
     }
 
     let orderSum = 0;
@@ -137,13 +160,17 @@ export async function POST(req) {
       address: requestBody.address,
       dishes: [...dishes],
     });
-    return Response.json({ success: true, msg: "order created!" });
+
+    return Response.json({ success: true, msg: "Order created!" }, 201); // HTTP 201 Created
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
   // finally {
   //   mongoose.connection.close();
@@ -180,10 +207,13 @@ export async function POST(req) {
 export async function GET(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
@@ -195,12 +225,19 @@ export async function GET(req) {
     const userId = decodedToken.userId;
     mongoose.connect(process.env.MONGO_URL);
     const orders = await Order.find({ userId });
-    return Response.json({ success: true, orders });
+
+    return Response.json({ success: true, orders }, 200); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
+  // finally {
+  //   mongoose.connection.close();
+  // }
 }

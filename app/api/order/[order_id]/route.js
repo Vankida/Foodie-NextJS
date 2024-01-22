@@ -81,10 +81,13 @@ import mongoose from "mongoose";
 export async function GET(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const { order_id } = params;
@@ -97,21 +100,32 @@ export async function GET(req, { params }) {
     const decodedToken = jwt.verify(token, secret);
     const userId = decodedToken.userId;
     mongoose.connect(process.env.MONGO_URL);
+
     // Find the specific order by order_id and userId
     const order = await Order.findOne({ _id: order_id, userId });
 
     if (!order) {
-      return Response.json({
-        success: false,
-        message: "Order not found",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Order not found",
+        },
+        404
+      ); // HTTP 404 Not Found
     }
-    return Response.json({ success: true, order });
+
+    return Response.json({ success: true, order }, 200); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
+  // finally {
+  //   mongoose.connection.close();
+  // }
 }

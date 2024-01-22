@@ -83,10 +83,13 @@ import mongoose from "mongoose";
 export async function POST(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
   const body = await req.json();
 
@@ -102,19 +105,25 @@ export async function POST(req) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" });
+      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
     }
     if (!user.admin) {
-      return Response.json({ success: false, message: "User is not an admin" });
+      return Response.json(
+        { success: false, message: "User is not an admin" },
+        403
+      ); // HTTP 403 Forbidden
     }
 
     const { name } = body;
     const dish = await Dish.findOne({ name });
     if (dish) {
-      return Response.json({
-        success: false,
-        message: "a dish with the same name already exists!",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "A dish with the same name already exists!",
+        },
+        400
+      ); // HTTP 400 Bad Request
     }
 
     const options = {
@@ -123,13 +132,16 @@ export async function POST(req) {
     mongoose.connect(process.env.MONGO_URL, options);
 
     const createdDish = await Dish.create(body);
-    return Response.json({ success: true, createdDish });
+    return Response.json({ success: true, createdDish }, 201); // HTTP 201 Created
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 }
 
@@ -189,7 +201,7 @@ export async function POST(req) {
 // Get dishes.
 export async function GET(req) {
   const options = {
-    autoIndex: true, //this is the code I added that solved it all
+    autoIndex: true,
   };
   mongoose.connect(process.env.MONGO_URL, options);
 
@@ -223,15 +235,21 @@ export async function GET(req) {
       dishes = dishes.filter((dish) => dish.vegetarian); // Correct the spelling later.
     }
 
-    return Response.json({
-      success: true,
-      dishes,
-      params: { page, categories, sorting, vegetarian },
-    });
+    return Response.json(
+      {
+        success: true,
+        dishes,
+        params: { page, categories, sorting, vegetarian },
+      },
+      200
+    ); // HTTP 200 OK
   } catch (error) {
-    return Response.json({
-      success: false,
-      message: "An error occurred while fetching dishes",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "An error occurred while fetching dishes",
+      },
+      500
+    ); // HTTP 500 Internal Server Error
   }
 }

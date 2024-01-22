@@ -37,10 +37,13 @@ import mongoose from "mongoose";
 export async function POST(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
-    return Response.json({
-      success: false,
-      message: "Authorization header missing",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Authorization header missing",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
 
   const { order_id } = params;
@@ -58,22 +61,31 @@ export async function POST(req, { params }) {
     const order = await Order.findOne({ _id: order_id, userId });
 
     if (!order) {
-      return Response.json({
-        success: false,
-        message: "Order not found",
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Order not found",
+        },
+        404
+      ); // HTTP 404 Not Found
     }
 
     // Update the status to "Confirmed"
     order.status = "Confirmed";
     await order.save();
 
-    return Response.json({ success: true, msg: "Order confirmed" });
+    return Response.json({ success: true, msg: "Order confirmed" }, 200); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
-    return Response.json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Invalid or expired token",
+      },
+      401
+    ); // HTTP 401 Unauthorized
   }
+  // finally {
+  //   mongoose.connection.close();
+  // }
 }
