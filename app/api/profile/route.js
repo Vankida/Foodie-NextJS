@@ -9,7 +9,7 @@ export async function GET(req) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -25,11 +25,14 @@ export async function GET(req) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      ); // HTTP 404 Not Found
     }
 
     // Return the user's information
-    return Response.json({ success: true, user }, 200); // HTTP 200 OK
+    return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
@@ -37,7 +40,7 @@ export async function GET(req) {
         success: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
   // finally {
@@ -53,7 +56,7 @@ export async function PUT(req) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -69,7 +72,10 @@ export async function PUT(req) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      ); // HTTP 404 Not Found
     }
 
     // Update the user information based on the request body
@@ -85,7 +91,7 @@ export async function PUT(req) {
     user = await user.save();
 
     // Return the updated user's information
-    return Response.json({ success: true, user }, 200); // HTTP 200 OK
+    return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
@@ -93,7 +99,7 @@ export async function PUT(req) {
         success: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
   // finally {

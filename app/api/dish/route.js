@@ -241,7 +241,7 @@ export async function GET(req) {
         dishes,
         params: { page, categories, sorting, vegetarian },
       },
-      200
+      { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     return Response.json(
@@ -249,7 +249,7 @@ export async function GET(req) {
         success: false,
         message: "An error occurred while fetching dishes",
       },
-      500
+      { status: 500 }
     ); // HTTP 500 Internal Server Error
   }
 }

@@ -60,7 +60,7 @@ export async function GET(req, { params }) {
           success: false,
           message: "Dish not found",
         },
-        404
+        { status: 404 }
       ); // HTTP 404 Not Found
     }
 
@@ -69,7 +69,7 @@ export async function GET(req, { params }) {
         success: true,
         dish,
       },
-      200
+      { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     return Response.json(
@@ -77,7 +77,7 @@ export async function GET(req, { params }) {
         success: false,
         message: "An error occurred while fetching the dish",
       },
-      500
+      { status: 500 }
     ); // HTTP 500 Internal Server Error
   }
 }
@@ -143,7 +143,7 @@ export async function PUT(req, { params }) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -163,12 +163,15 @@ export async function PUT(req, { params }) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      ); // HTTP 404 Not Found
     }
     if (!user.admin) {
       return Response.json(
         { success: false, message: "User is not an admin" },
-        403
+        { status: 403 }
       ); // HTTP 403 Forbidden
     }
     let dish = await Dish.findById(dish_id);
@@ -179,7 +182,7 @@ export async function PUT(req, { params }) {
           success: false,
           message: "Dish not found",
         },
-        404
+        { status: 404 }
       ); // HTTP 404 Not Found
     }
 
@@ -199,7 +202,7 @@ export async function PUT(req, { params }) {
     dish = await dish.save();
 
     // Return the updated user's information
-    return Response.json({ success: true, dish }, 200); // HTTP 200 OK
+    return Response.json({ success: true, dish }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
@@ -207,7 +210,7 @@ export async function PUT(req, { params }) {
         success: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 }
@@ -249,7 +252,7 @@ export async function DELETE(req, { params }) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -269,12 +272,15 @@ export async function DELETE(req, { params }) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      ); // HTTP 404 Not Found
     }
     if (!user.admin) {
       return Response.json(
         { success: false, message: "User is not an admin" },
-        403
+        { status: 403 }
       ); // HTTP 403 Forbidden
     }
 
@@ -286,7 +292,7 @@ export async function DELETE(req, { params }) {
           success: false,
           message: "Dish not found",
         },
-        404
+        { status: 404 }
       ); // HTTP 404 Not Found
     }
 
@@ -297,7 +303,7 @@ export async function DELETE(req, { params }) {
           success: false,
           message: "Dish not found",
         },
-        404
+        { status: 404 }
       ); // HTTP 404 Not Found
     }
 
@@ -306,7 +312,7 @@ export async function DELETE(req, { params }) {
         success: true,
         message: "Dish deleted successfully",
       },
-      200
+      { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     return Response.json(
@@ -314,7 +320,7 @@ export async function DELETE(req, { params }) {
         success: false,
         message: "An error occurred while deleting the dish",
       },
-      500
+      { status: 500 }
     ); // HTTP 500 Internal Server Error
   }
 }

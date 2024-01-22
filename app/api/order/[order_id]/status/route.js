@@ -42,7 +42,7 @@ export async function POST(req, { params }) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -66,7 +66,7 @@ export async function POST(req, { params }) {
           success: false,
           message: "Order not found",
         },
-        404
+        { status: 404 }
       ); // HTTP 404 Not Found
     }
 
@@ -74,7 +74,10 @@ export async function POST(req, { params }) {
     order.status = "Confirmed";
     await order.save();
 
-    return Response.json({ success: true, msg: "Order confirmed" }, 200); // HTTP 200 OK
+    return Response.json(
+      { success: true, msg: "Order confirmed" },
+      { status: 200 }
+    ); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
@@ -82,7 +85,7 @@ export async function POST(req, { params }) {
         success: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
   // finally {

@@ -19,14 +19,14 @@ export async function POST(req) {
 
     const createdUser = await User.create(body);
 
-    return Response.json(createdUser, 201); // HTTP 201 Created
+    return Response.json(createdUser, { status: 200 }); // HTTP 201 Created
   } catch (error) {
     return Response.json(
       {
         success: false,
         message: "An error occurred while creating the user",
       },
-      500
+      { status: 500 }
     ); // HTTP 500 Internal Server Error
   }
   // finally {

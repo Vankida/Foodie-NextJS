@@ -23,7 +23,7 @@ export async function POST(req) {
           success: false,
           message: "Invalid email or password",
         },
-        401
+        { status: 401 }
       ); // HTTP 401 Unauthorized
     }
 
@@ -36,7 +36,7 @@ export async function POST(req) {
           success: false,
           message: "Invalid email or password",
         },
-        401
+        { status: 401 }
       ); // HTTP 401 Unauthorized
     }
 
@@ -56,7 +56,7 @@ export async function POST(req) {
         user,
         token,
       },
-      200
+      { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     return Response.json(
@@ -64,7 +64,7 @@ export async function POST(req) {
         success: false,
         message: "An error occurred during login",
       },
-      500
+      { status: 500 }
     ); // HTTP 500 Internal Server Error
   }
   // finally {

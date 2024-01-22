@@ -96,7 +96,7 @@ export async function POST(req) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -117,7 +117,7 @@ export async function POST(req) {
           success: false,
           message: "Cart not found for the user",
         },
-        404
+        { status: 404 }
       ); // HTTP 404 Not Found
     }
 
@@ -140,7 +140,7 @@ export async function POST(req) {
             success: false,
             message: "Dish not found in the database",
           },
-          404
+          { status: 404 }
         ); // HTTP 404 Not Found
       }
     }
@@ -161,7 +161,10 @@ export async function POST(req) {
       dishes: [...dishes],
     });
 
-    return Response.json({ success: true, msg: "Order created!" }, 201); // HTTP 201 Created
+    return Response.json(
+      { success: true, msg: "Order created!" },
+      { status: 200 }
+    ); // HTTP 201 Created
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
@@ -169,7 +172,7 @@ export async function POST(req) {
         success: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
   // finally {
@@ -212,7 +215,7 @@ export async function GET(req) {
         success: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 
@@ -226,7 +229,7 @@ export async function GET(req) {
     mongoose.connect(process.env.MONGO_URL);
     const orders = await Order.find({ userId });
 
-    return Response.json({ success: true, orders }, 200); // HTTP 200 OK
+    return Response.json({ success: true, orders }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
@@ -234,7 +237,7 @@ export async function GET(req) {
         success: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
   // finally {
