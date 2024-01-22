@@ -8,6 +8,7 @@ import mongoose from "mongoose";
  * tags:
  *   name: Admin
  *   name: Dish
+ *   name: Order
  */
 
 /**

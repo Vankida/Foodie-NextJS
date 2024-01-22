@@ -4,7 +4,88 @@ import { Order } from "@/app/models/Order";
 import { Dish } from "@/app/models/Dish";
 import mongoose from "mongoose";
 
-// mongoose.connect(process.env.MONGO_URL);
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     OrderInfo:
+ *       type: array
+ *       required:
+ *         - id
+ *         - deliveryTime
+ *         - orderTime
+ *         - status
+ *         - price
+ *       properties:
+ *         id:
+ *           type: string
+ *         deliveryTime:
+ *           type: string
+ *         orderTime:
+ *           type: string
+ *         status:
+ *           type: string
+ *         price:
+ *           type: number
+ *       example:
+ *         id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+ *         deliveryTime: 2024-01-22T17:43:12.033Z
+ *         orderTime: 2024-01-22T17:43:12.033Z
+ *         status: InProcess
+ *         price: 0
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     CreateOrder:
+ *       type: array
+ *       required:
+ *         - deliveryTime
+ *         - address
+ *       properties:
+ *         deliveryTime:
+ *           type: string
+ *         address:
+ *           type: string
+ *       example:
+ *         deliveryTime: 2024-01-22T17:43:12.033Z
+ *         address: string
+ */
+
+/**
+ * @swagger
+ * /api/order:
+ *   post:
+ *     summary: Creates an order from dishes in basket
+ *     tags: [Order]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               deliveryTime:
+ *                 type: string
+ *                 example: 2024-01-22T17:51:07.757Z
+ *               address:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 // Add order.
 export async function POST(req) {
@@ -68,6 +149,33 @@ export async function POST(req) {
   //   mongoose.connection.close();
   // }
 }
+
+/**
+ * @swagger
+ * /api/order:
+ *   get:
+ *     summary: Get a list of orders
+ *     tags: [Order]
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/OrderInfo'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 
 export async function GET(req) {
   const authHeader = req.headers.get("Authorization");

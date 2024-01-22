@@ -2,6 +2,38 @@ import jwt from "jsonwebtoken";
 import { Order } from "@/app/models/Order";
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * /api/order/{orderId}/status:
+ *   post:
+ *     summary: Confim order delivery
+ *     tags: [Order]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: No Found
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
 export async function POST(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {

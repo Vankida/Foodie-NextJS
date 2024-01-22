@@ -2,6 +2,82 @@ import jwt from "jsonwebtoken";
 import { Order } from "@/app/models/Order";
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     OrderInfo:
+ *       type: array
+ *       required:
+ *         - id
+ *         - deliveryTime
+ *         - orderTime
+ *         - status
+ *         - price
+ *         - dishes
+ *       properties:
+ *         id:
+ *           type: string
+ *         deliveryTime:
+ *           type: string
+ *         orderTime:
+ *           type: string
+ *         status:
+ *           type: string
+ *         price:
+ *           type: number
+ *         dishes: array
+ *         address: string
+ *       example:
+ *         id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+ *         deliveryTime: 2024-01-22T17:43:12.033Z
+ *         orderTime: 2024-01-22T17:43:12.033Z
+ *         status: InProcess
+ *         price: 0
+ *         dishes: [{
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "string",
+      "price": 0,
+      "totalPrice": 0,
+      "amount": 0,
+      "image": "string"
+    }]
+ *         address: string
+ */
+
+/**
+ * @swagger
+ * /api/order/{orderId}:
+ *   get:
+ *     summary: Get information about a concrete order
+ *     tags: [Order]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/OrderInfo'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
 export async function GET(req, { params }) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {

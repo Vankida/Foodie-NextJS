@@ -5,6 +5,14 @@ import mongoose from "mongoose";
 
 /**
  * @swagger
+ * tags:
+ *   name: Admin
+ *   name: Dish
+ *   name: Order
+ */
+
+/**
+ * @swagger
  * /api/dish/{dishId}:
  *   get:
  *     summary: Get a information about a concrete dish
