@@ -47,7 +47,7 @@ function LoginPage() {
       setLoggingIn(true);
 
       //   make the API request to login the user "/api/account/login"
-      fetch("/api/login", {
+      fetch("/api/account/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

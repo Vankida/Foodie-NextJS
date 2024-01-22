@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
 
   // check if authenticated
   useEffect(() => {
-    fetch("/api/profile", {
+    fetch("/api/account/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -26,7 +26,7 @@ function profilePage() {
     console.log("opened profile");
     const accessToken = localStorage.getItem("token");
     // make the API request to get the profile info
-    fetch("/api/profile", {
+    fetch("/api/account/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -9,6 +9,7 @@ import mongoose from "mongoose";
  *   name: Admin
  *   name: Dish
  *   name: Order
+ *   name: User
  */
 
 /**

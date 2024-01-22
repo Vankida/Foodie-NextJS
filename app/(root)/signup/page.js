@@ -78,7 +78,7 @@ function SignUpPage() {
 
       setCreatingUser(true);
       // make the API request to register the user "/api/account/register"
-      fetch("/api/register", {
+      fetch("/api/account/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

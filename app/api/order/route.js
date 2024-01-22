@@ -56,6 +56,21 @@ import mongoose from "mongoose";
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     TokenResponse:
+ *       type: object
+ *       required:
+ *         - token
+ *       properties:
+ *         token:
+ *           type: string
+ *       example:
+ *         token: string
+ */
+
+/**
+ * @swagger
  * /api/order:
  *   post:
  *     summary: Creates an order from dishes in basket
