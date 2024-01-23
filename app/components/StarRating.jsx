@@ -74,12 +74,42 @@ export function StarRating({ initialRating, itemID }) {
     );
   }
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("token");
-    const dishEndPoint = `https://food-delivery.kreosoft.ru/api/dish/${itemID}`;
+  //   useEffect(() => {
+  //     const accessToken = localStorage.getItem("token");
+  //     const dishEndPoint = `/api/dish/${itemID}/rating`;
 
-    fetch(dishEndPoint, {
-      method: "GET",
+  //     fetch(dishEndPoint, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         if (!localStorage.getItem(`${itemID} Rating`)) setRating(data.rating);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }, [itemID]);
+
+  const handleRating = (rate) => {
+    const accessToken = localStorage.getItem("token");
+    const ratingEndPoint = `/api/dish/${itemID}/rating`;
+
+    const queryParams = new URLSearchParams({
+      ratingScore: rate,
+    });
+    const endpointWithParams = `${ratingEndPoint}/?${queryParams.toString()}`;
+    // const endpointWithParams = `${ratingEndPoint}/${rate.toString()}`;
+
+    // const page = req.nextUrl.searchParams.get("page");
+
+    // fetch(`/api/dish/${itemID}/rating/?${rate.toString()}`, {
+    fetch(endpointWithParams, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -88,39 +118,13 @@ export function StarRating({ initialRating, itemID }) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (!localStorage.getItem(`${itemID} Rating`)) setRating(data.rating);
+        if (data.success) {
+          localStorage.setItem(`${itemID} Rating`, rate);
+        }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [itemID]);
-
-  const handleRating = (rate) => {
-    const accessToken = localStorage.getItem("token");
-    const ratingEndPoint = `https://food-delivery.kreosoft.ru/api/dish/${itemID}/rating`;
-
-    const queryParams = new URLSearchParams({
-      ratingScore: rate,
-    });
-    const endpointWithParams = `${ratingEndPoint}?${queryParams.toString()}`;
-
-    fetch(endpointWithParams, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("Rated");
-          localStorage.setItem(`${itemID} Rating`, rate);
-          //   console.log(localStorage.getItem(`${itemID} Rating`))
-        } else {
-          console.error("Error:", response.status);
-        }
-      })
-      .catch((error) => console.error("Error:", error));
   };
 
   return (

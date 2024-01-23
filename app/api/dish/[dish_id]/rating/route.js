@@ -3,8 +3,9 @@ import { Order } from "@/app/models/Order";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-export async function GET(req, { params }) {
+export async function POST(req, { params }) {
   const { dish_id } = params;
+  const ratingScore = req.nextUrl.searchParams.get("ratingScore");
 
   const options = {
     autoIndex: true,
@@ -44,30 +45,17 @@ export async function GET(req, { params }) {
         ); // HTTP 404 Not Found
       }
 
-      // Check if the user has ordered the dish before
-      const orders = await Order.find({ userId });
+      // Update the dish's rate with the average of the current rate and the new ratingScore
+      dish.rating = (dish.rating + parseFloat(ratingScore)) / 2;
+      await dish.save();
 
-      let final = false;
-
-      for (let i = 0; i < orders.length; i++) {
-        for (let j = 0; j < orders[i].dishes.length; j++) {
-          if (orders[i].dishes[j].dishId === dish_id) {
-            final = true;
-            break;
-          }
-        }
-      }
-
-      if (orders.length > 0) {
-        return Response.json(final, { status: 200 }); // HTTP 200 OK
-      } else {
-        return Response.json(
-          {
-            canRate: false,
-          },
-          { status: 200 }
-        ); // HTTP 200 OK
-      }
+      return Response.json(
+        {
+          success: true,
+          message: "Rating updated successfully",
+        },
+        { status: 200 }
+      ); // HTTP 200 OK
     } catch (error) {
       // Token is invalid or expired
       return Response.json(
