@@ -45,7 +45,22 @@ export async function GET(req, { params }) {
       }
 
       // Check if the user has ordered the dish before
-      const orders = await Order.find({ userId, dishes: { $in: [dish_id] } });
+      const orders = await Order.find({ userId });
+
+      let final = false;
+
+      for (let i = 0; i < orders.length; i++) {
+        for (let j = 0; j < orders[i].dishes.length; j++) {
+          if (orders[i].dishes[j].dishId === dish_id) {
+            final = true;
+            break;
+          }
+        }
+      }
+
+      if (orders.length > 0) {
+        return Response.json(final, { status: 200 }); // HTTP 200 OK
+      }
 
       if (orders.length > 0) {
         return Response.json(

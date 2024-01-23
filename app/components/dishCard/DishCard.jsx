@@ -2,6 +2,7 @@
 import React from "react";
 import styles from "./dishCard.module.css";
 import Link from "next/link";
+import { StarRating } from "../StarRating";
 
 function DishCard({ dishID, link, header, details, rating, price }) {
   const handleSubmit = (event) => {
@@ -34,6 +35,7 @@ function DishCard({ dishID, link, header, details, rating, price }) {
         <p>Rating: {rating}/10</p>
         <p>Price: {price}$</p>
       </Link>
+      <StarRating initialRating={rating} itemID={dishID} />
       <button className={styles.button} onClick={(e) => handleSubmit(e)}>
         Add to cart
       </button>

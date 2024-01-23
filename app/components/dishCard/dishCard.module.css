@@ -3,7 +3,7 @@
   flex-direction: column;
   /* height: 400px;
   width: 300px; */
-  height: 400px;
+  height: 500px;
   width: 20vw;
   min-width: 250px;
   padding: 1rem 1.2rem;
@@ -20,7 +20,7 @@
 }
 
 .cardLink {
-  height: 90%;
+  height: 80%;
   width: 100%;
 }
 
