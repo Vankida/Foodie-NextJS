@@ -64,13 +64,18 @@ export async function GET(req, { params }) {
       ); // HTTP 404 Not Found
     }
 
-    return Response.json(
-      {
-        success: true,
-        dish,
-      },
-      { status: 200 }
-    ); // HTTP 200 OK
+    let filteredDish = {
+      id: dish._id,
+      name: dish.name,
+      description: dish.description,
+      price: dish.price,
+      image: dish.image,
+      vegetarian: dish.vegetarian,
+      rating: dish.rating,
+      category: dish.category,
+    };
+
+    return Response.json(filteredDish, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     return Response.json(
       {

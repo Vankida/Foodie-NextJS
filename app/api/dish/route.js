@@ -269,7 +269,7 @@ export async function GET(req) {
   } catch (error) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "An error occurred while fetching dishes",
       },
       { status: 500 }
