@@ -86,10 +86,10 @@ export async function POST(req) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
   const body = await req.json();
@@ -106,12 +106,12 @@ export async function POST(req) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ success: false, message: "User not found" }, 404); // HTTP 404 Not Found
+      return Response.json({ status: false, message: "User not found" }, 404); // HTTP 404 Not Found
     }
     if (!user.admin) {
       return Response.json(
-        { success: false, message: "User is not an admin" },
-        403
+        { status: false, message: "User is not an admin" },
+        { status: 403 }
       ); // HTTP 403 Forbidden
     }
 
@@ -120,10 +120,10 @@ export async function POST(req) {
     if (dish) {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "A dish with the same name already exists!",
         },
-        400
+        { status: 400 }
       ); // HTTP 400 Bad Request
     }
 
@@ -133,15 +133,15 @@ export async function POST(req) {
     mongoose.connect(process.env.MONGO_URL, options);
 
     const createdDish = await Dish.create(body);
-    return Response.json({ success: true, createdDish }, 201); // HTTP 201 Created
+    return Response.json({ success: true, createdDish }, { status: 200 }); // HTTP 200 Created
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
-      401
+      { status: 401 }
     ); // HTTP 401 Unauthorized
   }
 }

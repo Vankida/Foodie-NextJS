@@ -145,7 +145,7 @@ export async function PUT(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -169,13 +169,13 @@ export async function PUT(req, { params }) {
 
     if (!user) {
       return Response.json(
-        { success: false, message: "User not found" },
+        { status: false, message: "User not found" },
         { status: 404 }
       ); // HTTP 404 Not Found
     }
     if (!user.admin) {
       return Response.json(
-        { success: false, message: "User is not an admin" },
+        { status: false, message: "User is not an admin" },
         { status: 403 }
       ); // HTTP 403 Forbidden
     }
@@ -184,7 +184,7 @@ export async function PUT(req, { params }) {
     if (!dish) {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "Dish not found",
         },
         { status: 404 }
@@ -207,12 +207,12 @@ export async function PUT(req, { params }) {
     dish = await dish.save();
 
     // Return the updated user's information
-    return Response.json({ success: true, dish }, { status: 200 }); // HTTP 200 OK
+    return Response.json({ status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }
@@ -254,7 +254,7 @@ export async function DELETE(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -278,13 +278,13 @@ export async function DELETE(req, { params }) {
 
     if (!user) {
       return Response.json(
-        { success: false, message: "User not found" },
+        { status: false, message: "User not found" },
         { status: 404 }
       ); // HTTP 404 Not Found
     }
     if (!user.admin) {
       return Response.json(
-        { success: false, message: "User is not an admin" },
+        { status: false, message: "User is not an admin" },
         { status: 403 }
       ); // HTTP 403 Forbidden
     }
@@ -294,7 +294,7 @@ export async function DELETE(req, { params }) {
     if (!dish) {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "Dish not found",
         },
         { status: 404 }
@@ -305,7 +305,7 @@ export async function DELETE(req, { params }) {
     if (result.deletedCount === 0) {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "Dish not found",
         },
         { status: 404 }
@@ -313,16 +313,16 @@ export async function DELETE(req, { params }) {
     }
 
     return Response.json(
-      {
-        success: true,
-        message: "Dish deleted successfully",
-      },
+      // {
+      //   status: true,
+      //   message: "Dish deleted successfully",
+      // },
       { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "An error occurred while deleting the dish",
       },
       { status: 500 }
