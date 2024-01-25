@@ -6,8 +6,7 @@ export async function GET(req) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -25,10 +24,7 @@ export async function GET(req) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return Response.json(
-        { status: false, message: "User not found" },
-        { status: 404 }
-      ); // HTTP 404 Not Found
+      return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
     }
 
     const filteredUser = {
@@ -44,20 +40,15 @@ export async function GET(req) {
 
     // Return the user's information
     return Response.json(filteredUser, { status: 200 }); // HTTP 200 OK
-    // return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        status: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }
 
 export async function PUT(req) {
@@ -65,8 +56,7 @@ export async function PUT(req) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -84,10 +74,7 @@ export async function PUT(req) {
     let user = await User.findById(userId);
 
     if (!user) {
-      return Response.json(
-        { status: false, message: "User not found" },
-        { status: 404 }
-      ); // HTTP 404 Not Found
+      return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
     }
 
     // Update the user information based on the request body
@@ -101,23 +88,14 @@ export async function PUT(req) {
 
     // Save the updated user information
     user = await user.save();
-
-    // return Response.json({ user }, { status: 404 });
-
-    // Return the updated user's information
-    // return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
     return Response.json({ status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        status: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }
