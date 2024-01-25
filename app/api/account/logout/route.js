@@ -1,20 +1,12 @@
-import jwt from "jsonwebtoken";
-import { Order } from "@/app/models/Order";
 import { User } from "@/app/models/User";
-import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
 /**
  * @swagger
- * /api/order/{orderId}/status:
+ * /api/account/logout:
  *   post:
- *     summary: Confim order delivery
- *     tags: [Order]
- *     parameters:
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: string
+ *     summary: login to the system
+ *     tags: [User]
  *     responses:
  *       200:
  *         description: Success
@@ -25,8 +17,6 @@ import mongoose from "mongoose";
  *         description: Unauthorized
  *       403:
  *         description: Forbidden
- *       404:
- *         description: No Found
  *       500:
  *         description: InternalServerError
  *         content:
@@ -35,7 +25,7 @@ import mongoose from "mongoose";
  *               $ref: '#/components/schemas/Response'
  */
 
-export async function POST(req, { params }) {
+export async function POST(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
     return Response.json(
@@ -45,8 +35,6 @@ export async function POST(req, { params }) {
       { status: 401 }
     ); // HTTP 401 Unauthorized
   }
-
-  const { order_id } = params;
 
   const token = authHeader.split(" ")[1]; // Remove the "Bearer " prefix
   const secret = process.env.SECRET;
@@ -71,28 +59,11 @@ export async function POST(req, { params }) {
       );
     }
 
-    mongoose.connect(process.env.MONGO_URL);
+    user.loggedIn = false;
+    await user.save();
 
-    // Find the specific order by order_id and userId
-    const order = await Order.findOne({ _id: order_id, userId });
-
-    if (!order) {
-      return Response.json(
-        {
-          message: "Order not found",
-        },
-        { status: 404 }
-      ); // HTTP 404 Not Found
-    }
-
-    // Update the status to "Confirmed"
-    order.status = "Confirmed";
-    await order.save();
-
-    return Response.json(
-      // { success: true, msg: "Order confirmed" },
-      { status: 200 }
-    ); // HTTP 200 OK
+    // Return the user's information
+    return Response.json({ message: "Logged out!" }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(

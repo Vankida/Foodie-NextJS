@@ -1,5 +1,6 @@
 import { Dish } from "@/app/models/Dish";
 import { Order } from "@/app/models/Order";
+import { User } from "@/app/models/User";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
@@ -65,6 +66,21 @@ export async function POST(req, { params }) {
       // Verify the JWT token
       const decodedToken = jwt.verify(token, secret);
       const userId = decodedToken.userId;
+
+      // Get the user information from the database based on the userId
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
+      }
+      if (!user.loggedIn) {
+        return Response.json(
+          {
+            message: "Unauthorized",
+          },
+          { status: 401 }
+        );
+      }
 
       const dish = await Dish.findById(dish_id);
 

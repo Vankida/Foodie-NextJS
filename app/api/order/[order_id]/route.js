@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Order } from "@/app/models/Order";
+import { User } from "@/app/models/User";
 import mongoose from "mongoose";
 
 /**
@@ -98,6 +99,22 @@ export async function GET(req, { params }) {
     // Verify the JWT token
     const decodedToken = jwt.verify(token, secret);
     const userId = decodedToken.userId;
+
+    // Get the user information from the database based on the userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
+    }
+    if (!user.loggedIn) {
+      return Response.json(
+        {
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
     mongoose.connect(process.env.MONGO_URL);
 
     // Find the specific order by order_id and userId

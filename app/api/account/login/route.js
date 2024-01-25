@@ -81,6 +81,9 @@ export async function POST(req) {
     const token = jwt.sign({ userId: user.id }, secret, {
       expiresIn: "8h",
     });
+
+    user.loggedIn = true;
+    await user.save();
     // Include the token in the response
     return Response.json(
       {

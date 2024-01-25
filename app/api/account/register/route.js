@@ -98,6 +98,8 @@ export async function POST(req, res) {
     const token = jwt.sign({ userId: createdUser._id }, secret, {
       expiresIn: "8h",
     });
+    createdUser.loggedIn = true;
+    await createdUser.save();
     return Response.json({ token: token }, { status: 200 }); // HTTP 200 Created
   } catch (error) {
     return NextResponse.json(

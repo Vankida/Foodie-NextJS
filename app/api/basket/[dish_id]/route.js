@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Cart } from "@/app/models/Cart";
 import { Dish } from "@/app/models/Dish";
+import { User } from "@/app/models/User";
 import mongoose from "mongoose";
 
 /**
@@ -58,6 +59,22 @@ export async function POST(req, { params }) {
     // Verify the JWT token
     const decodedToken = jwt.verify(token, secret);
     const userId = decodedToken.userId;
+
+    // Get the user information from the database based on the userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
+    }
+    if (!user.loggedIn) {
+      return Response.json(
+        {
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
     mongoose.connect(process.env.MONGO_URL);
 
     // Try to find an existing cart for the user
@@ -178,6 +195,22 @@ export async function DELETE(req, { params }) {
     // Verify the JWT token
     const decodedToken = jwt.verify(token, secret);
     const userId = decodedToken.userId;
+
+    // Get the user information from the database based on the userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
+    }
+    if (!user.loggedIn) {
+      return Response.json(
+        {
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
     mongoose.connect(process.env.MONGO_URL);
 
     // Find the user's cart

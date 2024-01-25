@@ -113,6 +113,14 @@ export async function POST(req) {
         { status: 403 }
       ); // HTTP 403 Forbidden
     }
+    if (!user.loggedIn) {
+      return Response.json(
+        {
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
 
     const { name } = body;
     const dish = await Dish.findOne({ name });

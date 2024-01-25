@@ -51,6 +51,14 @@ export async function GET(req) {
     if (!user) {
       return Response.json({ message: "User not found" }, { status: 404 }); // HTTP 404 Not Found
     }
+    if (!user.loggedIn) {
+      return Response.json(
+        {
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
 
     const filteredUser = {
       id: user._id,

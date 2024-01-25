@@ -10,6 +10,7 @@ const UserSchema = new Schema(
     gender: { type: String },
     phoneNumber: { type: String },
     admin: { type: Boolean, default: false },
+    loggedIn: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
