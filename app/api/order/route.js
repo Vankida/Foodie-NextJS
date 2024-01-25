@@ -136,6 +136,10 @@ export async function POST(req) {
       ); // HTTP 404 Not Found
     }
 
+    // return Response.json({
+    //   existingCart,
+    // });
+
     const dishes = [];
     for (const item of existingCart.dishes) {
       let dish = await Dish.findById(item.dishId);
@@ -176,8 +180,11 @@ export async function POST(req) {
       dishes: [...dishes],
     });
 
+    existingCart.dishes = [];
+    await existingCart.save();
+
     return Response.json(
-      { success: true, msg: "Order created!" },
+      // { success: true, msg: "Order created!" },
       { status: 200 }
     ); // HTTP 201 Created
   } catch (error) {
