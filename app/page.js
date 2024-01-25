@@ -261,7 +261,7 @@ export default function Home() {
         {dishes.map((item, index) => {
           return (
             <DishCard
-              dishID={item._id}
+              dishID={item.id}
               link={item.image}
               header={item.name}
               details={item.description}

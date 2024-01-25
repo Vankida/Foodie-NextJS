@@ -115,13 +115,20 @@ export function StarRating({ initialRating, itemID }) {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
+      // .then((response) => response.json())
+      .then((response) => {
+        response.json();
+        if (response.status === 200) {
+          console.log("Yoo");
           localStorage.setItem(`${itemID} Rating`, rate);
         }
       })
+      // .then((data) => {
+      //   console.log(data);
+      //   if (data.status) {
+      //     localStorage.setItem(`${itemID} Rating`, rate);
+      //   }
+      // })
       .catch((error) => {
         console.error(error);
       });
