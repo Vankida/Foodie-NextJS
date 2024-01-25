@@ -41,8 +41,7 @@ export async function POST(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     );
@@ -107,19 +106,12 @@ export async function POST(req, { params }) {
       });
     }
 
-    return Response.json(
-      // {
-      //   status: true,
-      //   message: "Dish has been added successfully!",
-      // },
-      { status: 200 }
-    );
+    return Response.json({ status: 200 });
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        status: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     );
@@ -169,8 +161,7 @@ export async function DELETE(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     );
@@ -193,13 +184,8 @@ export async function DELETE(req, { params }) {
     const existingCart = await Cart.findOne({ userId });
 
     if (!existingCart) {
-      return Response.json(
-        {
-          status: false,
-          message: "Cart not found",
-        },
-        { status: 404 }
-      );
+      // "No cart found!"
+      return Response.json([], { status: 200 });
     }
 
     // Check if the dish exists in the cart
@@ -230,18 +216,10 @@ export async function DELETE(req, { params }) {
       // Save the updated cart
       await existingCart.save();
 
-      return Response.json(
-        // {
-        //   status: true,
-        //   message: "Dish quantity decreased successfully!",
-        //   // decreaseQuantity: decreaseQuantity,
-        // },
-        { status: 200 }
-      );
+      return Response.json({ status: 200 });
     } else {
       return Response.json(
         {
-          status: false,
           message: "Dish not found in the cart",
         },
         { status: 404 }
@@ -251,8 +229,7 @@ export async function DELETE(req, { params }) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     );

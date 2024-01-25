@@ -92,8 +92,7 @@ export async function GET(req) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     );
@@ -125,22 +124,18 @@ export async function GET(req) {
         return newDish;
       });
 
-      // return Response.json({ success: true, existingCart }, { status: 200 });
       return Response.json(modifiedDishes, { status: 200 });
     } else {
-      return Response.json(
-        { success: true, existingCart: "No cart found!" },
-        { status: 200 }
-      );
+      // "No cart found!"
+      return Response.json([], { status: 200 });
     }
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
-      { status: error.name === "TokenExpiredError" ? 401 : 403 }
+      { status: 401 }
     );
   }
 }
