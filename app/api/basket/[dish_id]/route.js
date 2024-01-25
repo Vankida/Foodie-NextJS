@@ -5,10 +5,10 @@ import mongoose from "mongoose";
 
 /**
  * @swagger
- * /api/cart/{dishId}:
+ * /api/basket/{dishId}:
  *   post:
  *     summary: Add dish to cart
- *     tags: [Cart]
+ *     tags: [Basket]
  *     parameters:
  *       - in: path
  *         name: dishId
@@ -120,10 +120,10 @@ export async function POST(req, { params }) {
 
 /**
  * @swagger
- * /api/cart/{dishId}:
+ * /api/basket/{dishId}:
  *   delete:
  *     summary: Decrease the number of dishes in the cart(if increase = true), or remove the dish completely(increase = false)
- *     tags: [Cart]
+ *     tags: [Basket]
  *     parameters:
  *       - in: path
  *         name: dishId

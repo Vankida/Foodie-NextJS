@@ -3,6 +3,40 @@ import { Order } from "@/app/models/Order";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * /api/dish/{id}/rating:
+ *   post:
+ *     summary: Set rating for a dish
+ *     tags: [Dish]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: ratingScore
+ *         required: true
+ *         schema:
+ *           type: Number
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 export async function POST(req, { params }) {
   const { dish_id } = params;
   const ratingScore = req.nextUrl.searchParams.get("ratingScore");

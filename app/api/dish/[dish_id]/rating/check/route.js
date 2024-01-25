@@ -3,6 +3,39 @@ import { Order } from "@/app/models/Order";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * /api/dish/{id}/rating/check:
+ *   get:
+ *     summary: Checks if user is able to set rating of the dish
+ *     tags: [Dish]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: boolean
+ *               items:
+ *                 $ref: '#/components/schemas/boolean'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 export async function GET(req, { params }) {
   const { dish_id } = params;
 

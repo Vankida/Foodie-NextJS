@@ -13,7 +13,7 @@ import mongoose from "mongoose";
 
 /**
  * @swagger
- * /api/dish/{dishId}:
+ * /api/dish/{id}:
  *   get:
  *     summary: Get a information about a concrete dish
  *     tags: [Dish]
@@ -89,7 +89,7 @@ export async function GET(req, { params }) {
 
 /**
  * @swagger
- * /api/dish/{dish_id}:
+ * /api/dish/{id}:
  *   put:
  *     summary: Update a dish
  *     tags: [Admin]
@@ -222,7 +222,7 @@ export async function PUT(req, { params }) {
 
 /**
  * @swagger
- * /api/dish/{dish_id}:
+ * /api/dish/{id}:
  *   delete:
  *     summary: Delete a dish
  *     tags: [Admin]

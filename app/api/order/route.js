@@ -58,6 +58,16 @@ import mongoose from "mongoose";
  * @swagger
  * components:
  *   schemas:
+ *     boolean:
+ *       type: boolean
+ *       example:
+ *         true
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
  *     TokenResponse:
  *       type: object
  *       required:
@@ -67,6 +77,45 @@ import mongoose from "mongoose";
  *           type: string
  *       example:
  *         token: string
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: array
+ *       required:
+ *         - id
+ *         - fullName
+ *         - birthDate
+ *         - gender
+ *         - address
+ *         - email
+ *         - phoneNumber
+ *       properties:
+ *         id:
+ *           type: string
+ *         fullName:
+ *           type: string
+ *         birthDate:
+ *           type: string
+ *         gender:
+ *           type: string
+ *         address:
+ *           type: string
+ *         email:
+ *           type: string
+ *         phoneNumber:
+ *           type: string
+ *       example:
+ *         id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+ *         fullName: string
+ *         birthDate: 2024-01-25T14:25:11.077Z
+ *         gender: Male
+ *         address: string
+ *         email: user@example.com
+ *         phoneNumber: string
  */
 
 /**

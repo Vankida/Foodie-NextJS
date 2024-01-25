@@ -1,6 +1,31 @@
 import { User } from "@/app/models/User";
 import jwt from "jsonwebtoken";
 
+/**
+ * @swagger
+ * /api/account/profile:
+ *   get:
+ *     summary: Get user profile
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
 export async function GET(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
@@ -51,6 +76,47 @@ export async function GET(req) {
   }
 }
 
+/**
+ * @swagger
+ * /api/account/profile:
+ *   put:
+ *     summary: Edit user profile
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fullName:
+ *                 type: string
+ *               birthDate:
+ *                 type: 2024-01-25T14:34:55.771Z
+ *               gender:
+ *                 type: string
+ *                 example: Male
+ *               address:
+ *                 type: string
+ *               phoneNumber:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
 export async function PUT(req) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {

@@ -4,6 +4,43 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/account/login:
+ *   post:
+ *     summary: login to the system
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/TokenResponse'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: InternalServerError
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Response'
+ */
+
 export async function POST(req) {
   const body = await req.json();
   const options = {

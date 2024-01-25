@@ -6,7 +6,7 @@ import mongoose from "mongoose";
  * @swagger
  * components:
  *   schemas:
- *     Cart:
+ *     Basket:
  *       type: object
  *       required:
  *         - name
@@ -57,15 +57,15 @@ import mongoose from "mongoose";
 /**
  * @swagger
  * tags:
- *   name: Cart
+ *   name: Basket
  */
 
 /**
  * @swagger
- * /api/cart:
+ * /api/basket:
  *   get:
- *     summary: Get user cart
- *     tags: [Cart]
+ *     summary: Get user basket
+ *     tags: [Basket]
  *     responses:
  *       200:
  *         description: Success
@@ -74,7 +74,7 @@ import mongoose from "mongoose";
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Cart'
+ *                 $ref: '#/components/schemas/Basket'
  *       401:
  *         description: Unauthorized
  *       403:
