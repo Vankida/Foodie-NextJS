@@ -18,8 +18,7 @@ export async function POST(req, { params }) {
     if (!authHeader) {
       return Response.json(
         {
-          status: false,
-          message: "Authorization header missing",
+          message: "Unauthorized",
         },
         { status: 401 }
       ); // HTTP 401 Unauthorized
@@ -38,7 +37,6 @@ export async function POST(req, { params }) {
       if (!dish) {
         return Response.json(
           {
-            status: false,
             message: "Dish not found",
           },
           { status: 404 }
@@ -49,19 +47,12 @@ export async function POST(req, { params }) {
       dish.rating = (dish.rating + parseFloat(ratingScore)) / 2;
       await dish.save();
 
-      return Response.json(
-        // {
-        //   status: true,
-        //   message: "Rating updated successfully",
-        // },
-        { status: 200 }
-      ); // HTTP 200 OK
+      return Response.json({ status: 200 }); // HTTP 200 OK
     } catch (error) {
       // Token is invalid or expired
       return Response.json(
         {
-          status: false,
-          message: "Invalid or expired token",
+          message: "Unauthorized",
         },
         { status: 401 }
       ); // HTTP 401 Unauthorized
@@ -69,7 +60,6 @@ export async function POST(req, { params }) {
   } catch (error) {
     return Response.json(
       {
-        status: false,
         message: "An error occurred while fetching the dish",
       },
       { status: 500 }

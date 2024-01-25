@@ -86,8 +86,7 @@ export async function POST(req) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -106,11 +105,11 @@ export async function POST(req) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return Response.json({ status: false, message: "User not found" }, 404); // HTTP 404 Not Found
+      return Response.json({ message: "User not found" }, 404); // HTTP 404 Not Found
     }
     if (!user.admin) {
       return Response.json(
-        { status: false, message: "User is not an admin" },
+        { message: "User is not an admin" },
         { status: 403 }
       ); // HTTP 403 Forbidden
     }
@@ -120,7 +119,6 @@ export async function POST(req) {
     if (dish) {
       return Response.json(
         {
-          status: false,
           message: "A dish with the same name already exists!",
         },
         { status: 400 }
@@ -133,13 +131,12 @@ export async function POST(req) {
     mongoose.connect(process.env.MONGO_URL, options);
 
     const createdDish = await Dish.create(body);
-    return Response.json({ success: true, createdDish }, { status: 200 }); // HTTP 200 Created
+    return Response.json({ createdDish }, { status: 200 }); // HTTP 200 Created
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        status: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -259,17 +256,14 @@ export async function GET(req) {
 
     return Response.json(
       {
-        // success: true,
         dishes: filteredDishes,
         pagination: pagination,
-        // params: { page, categories, sorting, vegetarian },
       },
       { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     return Response.json(
       {
-        status: false,
         message: "An error occurred while fetching dishes",
       },
       { status: 500 }
