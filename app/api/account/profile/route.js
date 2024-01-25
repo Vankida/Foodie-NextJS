@@ -6,7 +6,7 @@ export async function GET(req) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -26,7 +26,7 @@ export async function GET(req) {
 
     if (!user) {
       return Response.json(
-        { success: false, message: "User not found" },
+        { status: false, message: "User not found" },
         { status: 404 }
       ); // HTTP 404 Not Found
     }
@@ -49,7 +49,7 @@ export async function GET(req) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }
@@ -65,7 +65,7 @@ export async function PUT(req) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -85,7 +85,7 @@ export async function PUT(req) {
 
     if (!user) {
       return Response.json(
-        { success: false, message: "User not found" },
+        { status: false, message: "User not found" },
         { status: 404 }
       ); // HTTP 404 Not Found
     }
@@ -102,8 +102,11 @@ export async function PUT(req) {
     // Save the updated user information
     user = await user.save();
 
+    // return Response.json({ user }, { status: 404 });
+
     // Return the updated user's information
-    return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
+    // return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
+    return Response.json({ status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(

@@ -80,7 +80,7 @@ export async function POST(req) {
   } catch (error) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "An error occurred while creating the user",
       },
       { status: 500 }

@@ -37,13 +37,13 @@ function profilePage() {
       .then((data) => {
         console.log(data); // success
 
-        setAdmin(data.user.admin);
+        setAdmin(data.isAdmin);
 
-        setName(data.user.fullName);
-        setGender(data.user.gender);
-        setDob(data.user.birthDate.substring(0, 10));
-        setAddress(data.user.address);
-        setPhoneNumber(data.user.phoneNumber);
+        setName(data.fullName);
+        setGender(data.gender);
+        setDob(data.birthDate.substring(0, 10));
+        setAddress(data.address);
+        setPhoneNumber(data.phoneNumber);
       })
       .catch((error) => {
         console.error(error); // error
@@ -78,7 +78,7 @@ function profilePage() {
 
       const accessToken = localStorage.getItem("token");
       // send the PUT request to update the user profile
-      fetch("/api/profile", {
+      fetch("/api/account/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -86,10 +86,14 @@ function profilePage() {
         },
         body: JSON.stringify(data),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data); // success
-          if (data.success === true) alert("success");
+        // .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("Profile updated successfully.");
+            // setDataUpdatedMessage("Profile updated successfully.");
+          } else {
+            console.error("Error updating profile:", response.status);
+          }
         })
         .catch((error) => console.error("Error updating profile:", error));
     }

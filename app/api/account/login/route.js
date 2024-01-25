@@ -58,7 +58,7 @@ export async function POST(req) {
   } catch (error) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "An error occurred during login",
       },
       { status: 500 }
