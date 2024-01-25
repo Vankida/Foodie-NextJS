@@ -41,7 +41,7 @@ export async function POST(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -108,17 +108,17 @@ export async function POST(req, { params }) {
     }
 
     return Response.json(
-      {
-        success: true,
-        message: "Dish has been added successfully!",
-      },
+      // {
+      //   status: true,
+      //   message: "Dish has been added successfully!",
+      // },
       { status: 200 }
     );
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }
@@ -169,7 +169,7 @@ export async function DELETE(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -195,7 +195,7 @@ export async function DELETE(req, { params }) {
     if (!existingCart) {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "Cart not found",
         },
         { status: 404 }
@@ -231,17 +231,17 @@ export async function DELETE(req, { params }) {
       await existingCart.save();
 
       return Response.json(
-        {
-          success: true,
-          message: "Dish quantity decreased successfully!",
-          // decreaseQuantity: decreaseQuantity,
-        },
+        // {
+        //   status: true,
+        //   message: "Dish quantity decreased successfully!",
+        //   // decreaseQuantity: decreaseQuantity,
+        // },
         { status: 200 }
       );
     } else {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "Dish not found in the cart",
         },
         { status: 404 }
