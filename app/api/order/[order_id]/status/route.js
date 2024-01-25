@@ -75,7 +75,7 @@ export async function POST(req, { params }) {
     await order.save();
 
     return Response.json(
-      { success: true, msg: "Order confirmed" },
+      // { success: true, msg: "Order confirmed" },
       { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
