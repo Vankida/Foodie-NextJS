@@ -49,6 +49,8 @@ export async function GET(req, { params }) {
     autoIndex: true,
   };
 
+  // return Response.json("Hello"); // HTTP 404 Not Found
+
   mongoose.connect(process.env.MONGO_URL, options);
 
   try {

@@ -48,23 +48,23 @@ function page({ params }) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // success
-        setDishName(data.dish.name);
-        setDishDescription(data.dish.description);
-        setDishPrice(data.dish.price);
-        setDishImage(data.dish.image);
-        setIsDishVegeterian(data.dish.vegeterian);
-        setDishRating(data.dish.rating);
-        setDishPage(data.dish.page);
-        setDishCategory(data.dish.category);
+        setDishName(data.name);
+        setDishDescription(data.description);
+        setDishPrice(data.price);
+        setDishImage(data.image);
+        setIsDishVegeterian(data.vegeterian);
+        setDishRating(data.rating);
+        setDishPage(data.page);
+        setDishCategory(data.category);
 
-        setNewDishName(data.dish.name);
-        setNewDishDescription(data.dish.description);
-        setNewDishPrice(data.dish.price);
-        setNewDishImage(data.dish.image);
-        setNewIsDishVegeterian(data.dish.vegeterian);
-        setNewDishRating(data.dish.rating);
-        setNewDishPage(data.dish.page);
-        setNewDishCategory(data.dish.category);
+        setNewDishName(data.name);
+        setNewDishDescription(data.description);
+        setNewDishPrice(data.price);
+        setNewDishImage(data.image);
+        setNewIsDishVegeterian(data.vegeterian);
+        setNewDishRating(data.rating);
+        setNewDishPage(data.page);
+        setNewDishCategory(data.category);
       })
       .catch((error) => console.error("Error fetching the dish:", error));
   }, []);
