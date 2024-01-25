@@ -10,6 +10,12 @@ const DishSchema = new Schema(
     rating: { type: Number },
     category: { type: String },
     page: { type: Number },
+    rateArr: [
+      {
+        userId: { type: String, required: true },
+        rate: { type: Number, required: true },
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -22,10 +22,10 @@ export default function page({ params }) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // success
-        setOrderStatus(data.order.status);
-        setOrderCreatedAt(data.order.createdAt);
-        setOrderPrice(data.order.price);
-        setOrderDishes([...data.order.dishes]);
+        setOrderStatus(data.status);
+        setOrderCreatedAt(data.createdAt);
+        setOrderPrice(data.price);
+        setOrderDishes([...data.dishes]);
       })
       .catch((error) => console.error("Error getting order:", error));
   };

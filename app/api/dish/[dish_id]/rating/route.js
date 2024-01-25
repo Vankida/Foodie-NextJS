@@ -93,9 +93,36 @@ export async function POST(req, { params }) {
         ); // HTTP 404 Not Found
       }
 
-      // Update the dish's rate with the average of the current rate and the new ratingScore
-      dish.rating = (dish.rating + parseFloat(ratingScore)) / 2;
+      // check if the user rated the dish before
+      let ratedBefore = false;
+      for (let i = 0; i < dish.rateArr.length; i++) {
+        if (dish.rateArr[i].userId === userId) {
+          ratedBefore = true;
+          dish.rateArr[i].rate = ratingScore;
+        }
+      }
+      if (!ratedBefore) {
+        dish.rateArr.push({ userId: user.id, rate: ratingScore });
+      }
+
+      // dish.rating = (dish.rating + parseFloat(ratingScore)) / 2;
+
+      let sum = 0;
+      for (let i = 0; i < dish.rateArr.length; i++) {
+        sum += dish.rateArr[i].rate;
+      }
+      let finalRate = sum / dish.rateArr.length;
+      dish.rating = finalRate;
+
       await dish.save();
+
+      // return Response.json(
+      //   {
+      //     message: dish,
+      //     final: finalRate,
+      //   },
+      //   { status: 200 }
+      // ); // HTTP 401 Unauthorized
 
       return Response.json({ status: 200 }); // HTTP 200 OK
     } catch (error) {
