@@ -111,7 +111,7 @@ export async function PUT(req) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }

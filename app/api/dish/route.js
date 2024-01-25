@@ -236,11 +236,33 @@ export async function GET(req) {
       dishes = dishes.filter((dish) => dish.vegetarian); // Correct the spelling later.
     }
 
+    const pagination = {
+      size: 0,
+      count: 0,
+      current: 0,
+    };
+
+    const filteredDishes = [];
+    for (let i = 0; i < dishes.length; i++) {
+      let filteredDish = {
+        id: dishes[i]._id,
+        name: dishes[i].name,
+        description: dishes[i].description,
+        price: dishes[i].price,
+        image: dishes[i].image,
+        vegetarian: dishes[i].vegetarian,
+        rating: dishes[i].rating,
+        category: dishes[i].category,
+      };
+      filteredDishes.push(filteredDish);
+    }
+
     return Response.json(
       {
-        success: true,
-        dishes,
-        params: { page, categories, sorting, vegetarian },
+        // success: true,
+        dishes: filteredDishes,
+        pagination: pagination,
+        // params: { page, categories, sorting, vegetarian },
       },
       { status: 200 }
     ); // HTTP 200 OK

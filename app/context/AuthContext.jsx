@@ -26,7 +26,11 @@ export function AuthProvider({ children }) {
       .then((response) => response.json())
       .then((data) => {
         console.log("dataaaa", data); // success
-        if (data) {
+        if (data.status === false) {
+          console.log("YOO");
+          setIsAuthenticated(false);
+        } else if (data.fullName !== null) {
+          console.log(data);
           setIsAuthenticated(true);
           setIsAdmin(data.isAdmin);
           console.log("hello");
