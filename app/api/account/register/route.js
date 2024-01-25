@@ -1,5 +1,6 @@
 import { User } from "@/app/models/User";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 /**
@@ -68,7 +69,14 @@ export async function POST(req) {
 
     const createdUser = await User.create(body);
 
-    return Response.json(createdUser, { status: 200 }); // HTTP 201 Created
+    // Generate a JWT token
+    const secret = process.env.SECRET;
+    const token = jwt.sign({ userId: createdUser._id }, secret, {
+      expiresIn: "8h",
+    });
+
+    // return Response.json(createdUser, { status: 200 }); // HTTP 201 Created
+    return Response.json({ token: token }, { status: 200 }); // HTTP 201 Created
   } catch (error) {
     return Response.json(
       {

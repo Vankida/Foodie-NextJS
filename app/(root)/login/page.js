@@ -56,11 +56,11 @@ function LoginPage() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data); // success
+          console.log("hello", data); // success
           setLoggingIn(false);
-          alert(data.message);
+          // alert(data.message);
 
-          if (data.success) {
+          if (data.token) {
             // Redirect to the home page
             window.location.href = "/";
             // return redirect("/");

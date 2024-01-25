@@ -46,15 +46,12 @@ export async function POST(req) {
     // Generate a JWT token
     const secret = process.env.SECRET;
     const token = jwt.sign({ userId: user.id }, secret, {
-      expiresIn: "1h",
+      expiresIn: "8h",
     });
     // Include the token in the response
     return Response.json(
       {
-        success: true,
-        message: "Login successful",
-        user,
-        token,
+        token: token,
       },
       { status: 200 }
     ); // HTTP 200 OK
