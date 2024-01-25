@@ -83,7 +83,7 @@ export async function GET(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -107,19 +107,41 @@ export async function GET(req, { params }) {
     if (!order) {
       return Response.json(
         {
-          success: false,
+          status: false,
           message: "Order not found",
         },
         { status: 404 }
       ); // HTTP 404 Not Found
     }
 
-    return Response.json({ success: true, order }, { status: 200 }); // HTTP 200 OK
+    const filteredDishes = [];
+    for (let i = 0; i < order.dishes.length; i++) {
+      let filteredDish = {
+        id: order.dishes[i].dishId,
+        name: order.dishes[i].dishName,
+        price: order.dishes[i].dishPrice,
+        totalPrice: order.dishes[i].totalPrice,
+        amount: order.dishes[i].amount,
+        image: order.dishes[i].dishImage,
+      };
+      filteredDishes.push(filteredDish);
+    }
+    const filteredOrder = {
+      id: order._id,
+      deliveryTime: order.deliveryTime,
+      orderTime: order.orderTime,
+      status: order.status,
+      price: order.price,
+      dishes: filteredDishes,
+      address: order.address,
+    };
+
+    return Response.json(filteredOrder, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }

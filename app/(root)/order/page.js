@@ -17,7 +17,7 @@ function ordersPage() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // success
-        setOrders([...data.orders]);
+        setOrders([...data]);
       })
       .catch((error) => console.error("Error adding dish:", error));
   };
@@ -46,7 +46,7 @@ function ordersPage() {
         {orders.map((item, index) => {
           return (
             <OrderCard
-              orderID={item._id}
+              orderID={item.id}
               key={index}
               orderDate={item.createdAt}
               deliveryTime={item.deliveryTime}
