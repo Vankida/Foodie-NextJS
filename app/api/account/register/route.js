@@ -2,6 +2,7 @@ import { User } from "@/app/models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -52,8 +53,31 @@ import mongoose from "mongoose";
  *               $ref: '#/components/schemas/Response'
  */
 
-export async function POST(req) {
+export async function POST(req, res) {
   const body = await req.json();
+
+  const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const isValidPhone = (phoneNumber) => {
+    if (!phoneNumber.length) return false;
+    const regex = /^(\+7 \(\d{0,3}?\) \d{0,3}(-\d{0,2}){0,2}){0,2}$/;
+    return regex.test(phoneNumber) && phoneNumber.match(/\d/g).length === 11;
+  };
+
+  const isValidPassword = (password) => {
+    return password.length >= 6;
+  };
+
+  if (
+    !isValidEmail(body.email) ||
+    !isValidPhone(body.phoneNumber) ||
+    !isValidPassword(body.password)
+  ) {
+    return Response.json({ message: "Bad Request" }, { status: 400 });
+  }
 
   const options = {
     autoIndex: true,
@@ -74,19 +98,11 @@ export async function POST(req) {
     const token = jwt.sign({ userId: createdUser._id }, secret, {
       expiresIn: "8h",
     });
-
-    // return Response.json(createdUser, { status: 200 }); // HTTP 201 Created
-    return Response.json({ token: token }, { status: 200 }); // HTTP 201 Created
+    return Response.json({ token: token }, { status: 200 }); // HTTP 200 Created
   } catch (error) {
-    return Response.json(
-      {
-        status: false,
-        message: "An error occurred while creating the user",
-      },
+    return NextResponse.json(
+      { message: "Internal Server Error" },
       { status: 500 }
-    ); // HTTP 500 Internal Server Error
+    );
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }

@@ -2,6 +2,7 @@ import { User } from "@/app/models/User";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const body = await req.json();
@@ -20,7 +21,6 @@ export async function POST(req) {
     if (!user) {
       return Response.json(
         {
-          success: false,
           message: "Invalid email or password",
         },
         { status: 401 }
@@ -33,15 +33,11 @@ export async function POST(req) {
     if (!passwordMatch) {
       return Response.json(
         {
-          success: false,
           message: "Invalid email or password",
         },
         { status: 401 }
       ); // HTTP 401 Unauthorized
     }
-
-    // User and password are valid, you can proceed with the login logic here
-    // For example, you can generate a JWT token and send it back to the client
 
     // Generate a JWT token
     const secret = process.env.SECRET;
@@ -56,15 +52,9 @@ export async function POST(req) {
       { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
-    return Response.json(
-      {
-        status: false,
-        message: "An error occurred during login",
-      },
+    return NextResponse.json(
+      { message: "Internal Server Error" },
       { status: 500 }
-    ); // HTTP 500 Internal Server Error
+    );
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }
