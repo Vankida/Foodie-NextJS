@@ -39,8 +39,7 @@ export async function POST(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -63,7 +62,6 @@ export async function POST(req, { params }) {
     if (!order) {
       return Response.json(
         {
-          success: false,
           message: "Order not found",
         },
         { status: 404 }
@@ -82,13 +80,9 @@ export async function POST(req, { params }) {
     // Token is invalid or expired
     return Response.json(
       {
-        status: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }

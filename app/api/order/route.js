@@ -108,8 +108,7 @@ export async function POST(req) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -129,7 +128,6 @@ export async function POST(req) {
     if (!existingCart) {
       return Response.json(
         {
-          success: false,
           message: "Cart not found for the user",
         },
         { status: 404 }
@@ -156,7 +154,6 @@ export async function POST(req) {
       } else {
         return Response.json(
           {
-            success: false,
             message: "Dish not found in the database",
           },
           { status: 404 }
@@ -183,23 +180,16 @@ export async function POST(req) {
     existingCart.dishes = [];
     await existingCart.save();
 
-    return Response.json(
-      // { success: true, msg: "Order created!" },
-      { status: 200 }
-    ); // HTTP 201 Created
+    return Response.json({ status: 200 }); // HTTP 201 Created
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }
 
 /**
@@ -234,8 +224,7 @@ export async function GET(req) {
   if (!authHeader) {
     return Response.json(
       {
-        status: false,
-        message: "Authorization header missing",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
@@ -268,13 +257,9 @@ export async function GET(req) {
     // Token is invalid or expired
     return Response.json(
       {
-        status: false,
-        message: "Invalid or expired token",
+        message: "Unauthorized",
       },
       { status: 401 }
     ); // HTTP 401 Unauthorized
   }
-  // finally {
-  //   mongoose.connection.close();
-  // }
 }
