@@ -227,7 +227,7 @@ export async function GET(req) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -244,12 +244,24 @@ export async function GET(req) {
     mongoose.connect(process.env.MONGO_URL);
     const orders = await Order.find({ userId });
 
-    return Response.json({ success: true, orders }, { status: 200 }); // HTTP 200 OK
+    const filteredOrders = [];
+    for (let i = 0; i < orders.length; i++) {
+      let filteredOrder = {
+        id: orders[i].id,
+        deliveryTime: orders[i].deliveryTime,
+        orderTime: orders[i].orderTime,
+        status: orders[i].status,
+        price: orders[i].price,
+      };
+      filteredOrders.push(filteredOrder);
+    }
+
+    return Response.json(filteredOrders, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }
