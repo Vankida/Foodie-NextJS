@@ -11,7 +11,7 @@ function DishCard({ dishID, link, header, details, rating, price }) {
     event.preventDefault();
 
     const accessToken = localStorage.getItem("token");
-    fetch(`/api/cart/${dishID}`, {
+    fetch(`/api/basket/${dishID}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -7,7 +7,7 @@ function cartPage() {
 
   const getCartItems = () => {
     const accessToken = localStorage.getItem("token");
-    fetch("/api/cart", {
+    fetch("/api/basket", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -115,12 +115,12 @@ export async function GET(req) {
       let modifiedDishes = dishesInCart.map((dish) => {
         // To remove the _id property
         const newDish = {
-          dishId: dish.dishId,
+          id: dish.dishId,
           image: dish.image,
           name: dish.name,
           price: dish.price,
           totalPrice: dish.totalPrice,
-          quantity: dish.quantity,
+          amount: dish.quantity,
         };
         return newDish;
       });

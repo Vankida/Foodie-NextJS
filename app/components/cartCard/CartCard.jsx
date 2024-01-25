@@ -6,7 +6,7 @@ function CartCard({ dishID, dishName, dishPrice, totalPrice, dishImage }) {
   const handleDecDish = (event) => {
     event.preventDefault();
     const accessToken = localStorage.getItem("token");
-    fetch(`/api/cart/${dishID}?increase=${true}`, {
+    fetch(`/api/basket/${dishID}?increase=${true}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +21,7 @@ function CartCard({ dishID, dishName, dishPrice, totalPrice, dishImage }) {
   const handleIncDish = (event) => {
     event.preventDefault();
     const accessToken = localStorage.getItem("token");
-    fetch(`/api/cart/${dishID}`, {
+    fetch(`/api/basket/${dishID}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ function CartCard({ dishID, dishName, dishPrice, totalPrice, dishImage }) {
   const handleRemoveDish = (event) => {
     event.preventDefault();
     const accessToken = localStorage.getItem("token");
-    fetch(`/api/cart/${dishID}?increase=${false}`, {
+    fetch(`/api/basket/${dishID}?increase=${false}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
