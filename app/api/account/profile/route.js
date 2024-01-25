@@ -31,8 +31,20 @@ export async function GET(req) {
       ); // HTTP 404 Not Found
     }
 
+    const filteredUser = {
+      id: user._id,
+      fullName: user.fullName,
+      birthDate: user.birthDate,
+      gender: user.gender,
+      address: user.address,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      isAdmin: user.admin,
+    };
+
     // Return the user's information
-    return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
+    return Response.json(filteredUser, { status: 200 }); // HTTP 200 OK
+    // return Response.json({ success: true, user }, { status: 200 }); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(

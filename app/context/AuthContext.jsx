@@ -25,10 +25,10 @@ export function AuthProvider({ children }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // success
-        if (data.success === true) {
+        console.log("dataaaa", data); // success
+        if (data) {
           setIsAuthenticated(true);
-          setIsAdmin(data.user.admin);
+          setIsAdmin(data.isAdmin);
           console.log("hello");
         }
       })
