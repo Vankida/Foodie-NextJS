@@ -69,6 +69,21 @@ export async function POST(req) {
 
     const createdUser = await User.create(body);
 
+    const isValidEmail = (email) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    };
+
+    if (!isValidEmail(body.email)) {
+      return Response.json(
+        {
+          status: false,
+          message: "Invalid email format",
+        },
+        { status: 400 }
+      );
+    }
+
     // Generate a JWT token
     const secret = process.env.SECRET;
     const token = jwt.sign({ userId: createdUser._id }, secret, {
