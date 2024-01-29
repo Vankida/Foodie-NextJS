@@ -16,8 +16,11 @@ function ordersPage() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // success
-        setOrders([...data]);
+        console.log("yooossss", data); // success
+        if (data.status !== false) setOrders([...data]);
+        else {
+          alert("Nothing to show here");
+        }
       })
       .catch((error) => console.error("Error adding dish:", error));
   };
