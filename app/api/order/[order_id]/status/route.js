@@ -39,7 +39,7 @@ export async function POST(req, { params }) {
   if (!authHeader) {
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Authorization header missing",
       },
       { status: 401 }
@@ -75,14 +75,14 @@ export async function POST(req, { params }) {
     await order.save();
 
     return Response.json(
-      { success: true, msg: "Order confirmed" },
+      // { success: true, msg: "Order confirmed" },
       { status: 200 }
     ); // HTTP 200 OK
   } catch (error) {
     // Token is invalid or expired
     return Response.json(
       {
-        success: false,
+        status: false,
         message: "Invalid or expired token",
       },
       { status: 401 }
