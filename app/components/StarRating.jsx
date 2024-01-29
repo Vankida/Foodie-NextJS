@@ -28,13 +28,13 @@ export function StarRating({ initialRating, itemID }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("Can rate?", data);
         setCanRate(data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [itemID, rating]);
+  }, [itemID]);
 
   const handleMouseOver = (starIdx) => {
     if (!clicked) {
